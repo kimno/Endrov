@@ -6,11 +6,17 @@
 package endrov.recording;
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
 import java.util.Map;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.vecmath.Vector3d;
 
 import endrov.data.EvData;
+import endrov.ev.GeneralObserver;
 import endrov.hardware.EvDevicePath;
 import endrov.hardware.EvHardware;
 import endrov.imageset.EvImage;
@@ -21,6 +27,7 @@ import endrov.keyBinding.JInputManager;
 import endrov.recording.device.HWAutoFocus;
 import endrov.recording.device.HWImageScanner;
 import endrov.recording.device.HWStage;
+import endrov.recording.positionsWindow.Position;
 import endrov.roi.LineIterator;
 import endrov.roi.ROI;
 import endrov.roi.LineIterator.LineRange;
@@ -35,6 +42,39 @@ import endrov.util.ProgressHandle;
  */
 public class RecordingResource
 	{
+	public interface PositionListListener
+	{
+
+		public void positionsUpdated();
+		
+	}
+	
+	public static GeneralObserver<PositionListListener> posListListeners=new GeneralObserver<RecordingResource.PositionListListener>();
+	
+	public static LinkedList<Position> posList = new LinkedList<Position>();
+	
+	public static void posListUpdated(){
+		for(PositionListListener list:posListListeners.getListeners())
+			list.positionsUpdated();
+	}
+	
+//	ActionListener t = new ActionListener() {
+//		JButton b = new JButton();
+//		//b.addActionListener(t);
+//		public ActionListener(){
+//			
+//		}
+//		public void actionPerformed(ActionEvent e) {
+//			// TODO Auto-generated method stub
+//			
+//		}
+//	};
+	
+	
+	
+	
+	
+	
 	public static EvSound soundCameraSnap;
 
 	/**

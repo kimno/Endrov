@@ -14,11 +14,14 @@ import endrov.recording.frapWindow.FlowUnitCalcFRAP;
 import endrov.recording.frapWindow.FlowUnitShowGraph;
 import endrov.recording.frapWindow.RecWindowFRAP;
 import endrov.recording.liveWindow.LiveWindow;
+import endrov.recording.overviewWindow.OverviewWindow;
+import endrov.recording.positionsWindow.PositionsWindow;
 import endrov.recording.propertyWindow.PropertyWindow;
 import endrov.recording.recmetBurst.EvBurstAcquisition;
 import endrov.recording.recmetBurst.RecWindowBurst;
 import endrov.recording.recmetMultidim.RecWindowMultiDim;
 import endrov.recording.resolutionConfigWindow.ResolutionConfigWindow;
+import endrov.recording.testWindow.TestWindow;
 
 public class PLUGIN extends PluginDef
 	{
@@ -54,6 +57,8 @@ public class PLUGIN extends PluginDef
 				RecordingResource.class,
 				RecWindowMultiDim.class,
 				ResolutionConfigWindow.class,
+				OverviewWindow.class,
+				PositionsWindow.class,
 				
 				PropertyWindow.class,
 				
@@ -65,6 +70,9 @@ public class PLUGIN extends PluginDef
 				EvFRAPAcquisition.class,FlowUnitCalcFRAP.class,
 				EvFLIPAcquisition.class,FlowUnitSumIntensityROI.class,
 				FlowUnitShowGraph.class,
+				
+				TestWindow.class,
+				
 				};
 		}
 	
