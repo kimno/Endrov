@@ -555,6 +555,7 @@ public class TestWindow extends BasicWindow implements ActionListener, ImageWind
 		RecordingResource.setRelStagePos(pos);
 		
 		System.out.println(RecordingResource.getCurrentStageX());
+		System.out.println("ett vakety troll");
 		
 	}
 	
