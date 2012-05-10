@@ -39,9 +39,11 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import endrov.hardware.EvDevice;
+import endrov.hardware.EvDevicePath;
 import endrov.hardware.EvHardware;
 import endrov.recording.RecordingResource;
 import endrov.recording.RecordingResource.PositionListListener;
+import endrov.recording.device.HWCamera;
 import endrov.recording.device.HWStage;
 import endrov.util.EvSwingUtil;
 
@@ -60,8 +62,9 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 	private DefaultListModel listModel;
 	private JScrollPane listScroller;
 	
-	private CheckBoxList<HWStage> infoList;
-	private LinkedHashMap<HWStage, Boolean> infoModel;
+	//private CheckBoxList<HWStage> infoList;
+	private CheckBoxList2 infoList;
+	//private LinkedHashMap<HWStage, Boolean> infoModel;
 	private JScrollPane infoScroller;
 	
 	private JButton bAdd=new JButton("Add");
@@ -91,10 +94,9 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 		bPanel.add(EvSwingUtil.layoutCompactVertical(bAdd,bRemove,bGoTo,bMoveUp,bMoveDown,bSave,bLoad));
 		
 		listModel = new DefaultListModel();
-		infoModel = new LinkedHashMap<HWStage, Boolean>();
 		
-		infoList = new CheckBoxList<HWStage>(infoModel);
-		
+		infoList = new CheckBoxList2();
+
 		posList = new JList(listModel);
 		posList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		posList.setLayoutOrientation(JList.VERTICAL);
@@ -104,40 +106,11 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 		
 		
 		infoScroller = new JScrollPane(infoList);
+		
 		posPanel.add(infoScroller,BorderLayout.CENTER);
-		
-		
-//		infoModel.put("sovande troll", true);
-//		infoModel.put("tarmen mår bra av en deg", true);
-////		infoList.se
-//		infoList = new CheckBoxList<String>(infoModel);
 		
 		add(EvSwingUtil.withTitledBorder("Positions", posPanel),BorderLayout.CENTER); 
 		add(EvSwingUtil.withTitledBorder("", bPanel),BorderLayout.WEST); 
-		
-		
-		
-		
-		
-		for(HWStage stage:EvHardware.getDeviceMapCast(HWStage.class).values())
-		{
-			infoModel.put(stage, true);
-		}
-		
-		
-//		infoModel.put("sovande troll", true);
-//		infoModel.put("tarmen mår bra av en deg", true);
-
-		
-		infoList.updateModel(infoModel);
-		
-//		for(HWStage stage:EvHardware.getDeviceMapCast(HWStage.class).values())
-//		{
-//		String[] aname=stage.getAxisName();
-//		for(int i=0;i<aname.length;i++)
-//			if(aname[i].equals("x"))
-//				return stage.getStagePos()[i];
-//		}
 		
 		RecordingResource.posListListeners.addWeakListener(this);
 		
@@ -148,23 +121,23 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 	{
 		if(e.getSource()==bAdd)
 		{
-			Position newPos = new Position(getStageX(), getStageY(), 0);
-			//listModel.addElement(newPos);
+			AxisInfo[] newInfo = new AxisInfo[infoList.getInfo().length];
+			for(int i = 0; i< infoList.getInfo().length; i++){
+				newInfo[i] = new AxisInfo(
+						infoList.getInfo()[i].getDevice(),
+						infoList.getInfo()[i].getAxis(),
+						infoList.getInfo()[i].getDevice().getStagePos()[infoList.getInfo()[i].getAxis()]
+								);
+			}
 			
+			Position newPos = new Position(newInfo);
 			RecordingResource.posList.add(newPos);
+			
 			RecordingResource.posListUpdated();
-			
-			
-			
-			//RecordingResource.posListListeners.addWeakListener((PositionListListener) listModel);
-			//här jobbar vi just nUUUU!!
 			
 		}
 		else if(e.getSource()==bRemove)
 		{
-//			int index = posList.getSelectedIndex();
-//			if(index >=0)
-//				listModel.remove(index);	
 			int index = posList.getSelectedIndex();
 			if(index >=0){
 				RecordingResource.posList.remove(index);
@@ -176,63 +149,30 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 			Position pos;
 			int index = posList.getSelectedIndex();
 			if(index >=0){
-//				pos = (Position)listModel.get(index);
-//				
-//				Map<String, Double> gotoPos=new HashMap<String, Double>();		
-//
-//				gotoPos.put("x",pos.getX());
-//				gotoPos.put("y",pos.getY());
-//				RecordingResource.setStagePos(gotoPos);
-//				System.out.println(""+pos);
+
 				pos = (Position) RecordingResource.posList.get(index);
 				
 				Map<String, Double> gotoPos=new HashMap<String, Double>();
-				gotoPos.put("x",pos.getX());
-				gotoPos.put("y",pos.getY());
+				
+				for(int i = 0; i<pos.getAxisInfo().length; i++){
+					gotoPos.put(pos.getAxisInfo()[i].getDevice().getAxisName()[pos.getAxisInfo()[i].getAxis()],
+							pos.getAxisInfo()[i].getValue());
+				}
+				
 				RecordingResource.setStagePos(gotoPos);
-				System.out.println(""+pos);
+				
+//				System.out.println(""+pos);
 			}
 		}
 		else if(e.getSource()==bMoveUp)
 		{
 			int index = posList.getSelectedIndex();
 			if(index >0){
-
-//				Position[] anArray = new Position[listModel.getSize()];
-//				listModel.copyInto(anArray);
-//				DefaultListModel newList = new DefaultListModel();
-//				for(int i =0; i< anArray.length; i++){
-//					newList.addElement(anArray[i]);
-//				}
-//				newList.add(index+1, newList.get(index-1));
-//				newList.remove(index-1);
-//				listModel = newList;
-				
-//				Position[] anArray = new Position[RecordingResource.posList.size()];
-				
-//				Position[] anArray;
-//				anArray = (Position[]) RecordingResource.posList.toArray();
-//				
-//				DefaultListModel newList = new DefaultListModel();
-//				for(int i =0; i< anArray.length; i++){
-//					newList.addElement(anArray[i]);
-//				}
-				
-				
-				
-				
-//				DefaultListModel newList = new DefaultListModel();
-//				for(int i =0; i< RecordingResource.posList.size(); i++){
-//					newList.addElement(RecordingResource.posList.get(i));
-//				}
 				LinkedList<Position> newList = (LinkedList<Position>) RecordingResource.posList.clone();
 				newList.add(index+1, newList.get(index-1));
 				newList.remove(index-1);
 				RecordingResource.posList = newList;		
 				RecordingResource.posListUpdated();
-				
-//				listModel.add(index+1, listModel.get(index-1));
-//				listModel.remove(index-1);
 				
 			}
 			
@@ -240,29 +180,14 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 		else if(e.getSource()==bMoveDown)
 		{
 			int index = posList.getSelectedIndex();
-			if(index >= 0 && index < listModel.getSize()-1){
-				
-//				Position[] anArray = new Position[listModel.getSize()];
-//				listModel.copyInto(anArray);
-//				DefaultListModel newList = new DefaultListModel();
-//				
-//				for(int i =0; i< anArray.length; i++){
-//					newList.addElement(anArray[i]);
-//				}
-//				newList.add(index, newList.get(index+1));
-//				newList.remove(index+2);
-//				listModel = newList;
-				
+			if(index >= 0 && index < listModel.getSize()-1){			
 				
 				LinkedList<Position> newList = (LinkedList<Position>) RecordingResource.posList.clone();
 				newList.add(index, newList.get(index+1));
 				newList.remove(index+2);
 				RecordingResource.posList = newList;		
 				RecordingResource.posListUpdated();
-				
-				
-//				listModel.add(index, listModel.get(index+1));
-//				listModel.remove(index+2);
+
 			}
 					
 		}
@@ -313,16 +238,12 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 			} catch (IOException e2) {
 				// TODO Auto-generated catch block
 			}finally{}
-		
-			//listModel.removeAllElements();
-//			for(int i =0; i< anArray.length; i++){
-//				listModel.addElement(anArray[i]);
-//			}		
+			
 			for(int i =0; i< anArray.length; i++){
 				RecordingResource.posList.add(anArray[i]);
 			}		
 			RecordingResource.posListUpdated();
-			//System.out.println( anArray[0] );
+
 		}
 	}
 	
