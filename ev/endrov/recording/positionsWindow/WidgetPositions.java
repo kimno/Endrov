@@ -24,6 +24,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 import java.util.Map;
@@ -37,8 +38,11 @@ import javax.swing.JScrollPane;
 
 import javax.swing.ListSelectionModel;
 
+import endrov.hardware.EvDevice;
+import endrov.hardware.EvHardware;
 import endrov.recording.RecordingResource;
 import endrov.recording.RecordingResource.PositionListListener;
+import endrov.recording.device.HWStage;
 import endrov.util.EvSwingUtil;
 
 /**
@@ -55,6 +59,10 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 	private JList posList;
 	private DefaultListModel listModel;
 	private JScrollPane listScroller;
+	
+	private CheckBoxList<HWStage> infoList;
+	private LinkedHashMap<HWStage, Boolean> infoModel;
+	private JScrollPane infoScroller;
 	
 	private JButton bAdd=new JButton("Add");
 	private JButton bRemove=new JButton("Remove");
@@ -81,20 +89,57 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 		this.setLayout(new BorderLayout());
 		
 		bPanel.add(EvSwingUtil.layoutCompactVertical(bAdd,bRemove,bGoTo,bMoveUp,bMoveDown,bSave,bLoad));
-			
 		
 		listModel = new DefaultListModel();
+		infoModel = new LinkedHashMap<HWStage, Boolean>();
+		
+		infoList = new CheckBoxList<HWStage>(infoModel);
+		
 		posList = new JList(listModel);
 		posList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		posList.setLayoutOrientation(JList.VERTICAL);
+		
 		listScroller = new JScrollPane(posList);
-		posPanel.add(listScroller,BorderLayout.CENTER);
+		posPanel.add(listScroller,BorderLayout.NORTH);
+		
+		
+		infoScroller = new JScrollPane(infoList);
+		posPanel.add(infoScroller,BorderLayout.CENTER);
+		
+		
+//		infoModel.put("sovande troll", true);
+//		infoModel.put("tarmen mår bra av en deg", true);
+////		infoList.se
+//		infoList = new CheckBoxList<String>(infoModel);
+		
 		add(EvSwingUtil.withTitledBorder("Positions", posPanel),BorderLayout.CENTER); 
 		add(EvSwingUtil.withTitledBorder("", bPanel),BorderLayout.WEST); 
 		
 		
-		RecordingResource.posListListeners.addWeakListener(this);
 		
+		
+		
+		for(HWStage stage:EvHardware.getDeviceMapCast(HWStage.class).values())
+		{
+			infoModel.put(stage, true);
+		}
+		
+		
+//		infoModel.put("sovande troll", true);
+//		infoModel.put("tarmen mår bra av en deg", true);
+
+		
+		infoList.updateModel(infoModel);
+		
+//		for(HWStage stage:EvHardware.getDeviceMapCast(HWStage.class).values())
+//		{
+//		String[] aname=stage.getAxisName();
+//		for(int i=0;i<aname.length;i++)
+//			if(aname[i].equals("x"))
+//				return stage.getStagePos()[i];
+//		}
+		
+		RecordingResource.posListListeners.addWeakListener(this);
 		
 	}
 
