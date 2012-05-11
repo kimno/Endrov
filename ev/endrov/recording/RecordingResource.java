@@ -95,12 +95,12 @@ public class RecordingResource
 	public static double getCurrentStageX()
 		{
 		for(HWStage stage:EvHardware.getDeviceMapCast(HWStage.class).values())
-			{
-			String[] aname=stage.getAxisName();
-			for(int i=0;i<aname.length;i++)
-				if(aname[i].equals("x"))
-					return stage.getStagePos()[i];
-			}
+		{
+		String[] aname=stage.getAxisName();
+		for(int i=0;i<aname.length;i++)
+			if(aname[i].equals("x") || aname[i].equals("X"))
+				return stage.getStagePos()[i];
+		}
 //		System.out.println("No stage for X found");
 		return 0;
 		}
@@ -141,7 +141,7 @@ public class RecordingResource
 			{
 			String[] aname=stage.getAxisName();
 			for(int i=0;i<aname.length;i++)
-				if(aname[i].equals("y"))
+				if(aname[i].equals("y")|| aname[i].equals("Y"))
 					return stage.getStagePos()[i];
 			}
 //		System.out.println("No stage for Y found");
@@ -155,7 +155,7 @@ public class RecordingResource
 			{
 			String[] aname=stage.getAxisName();
 			for(int i=0;i<aname.length;i++)
-				if(aname[i].equals("z"))
+				if(aname[i].equals("z")|| aname[i].equals("Z"))
 					return stage.getStagePos()[i];
 			}
 		return 0;
@@ -167,7 +167,7 @@ public class RecordingResource
 			{
 			String[] aname=stage.getAxisName();
 			for(int i=0;i<aname.length;i++)
-				if(aname[i].equals("z"))
+				if(aname[i].equals("z") || aname[i].equals("Z"))
 					{
 					double[] pos=stage.getStagePos();
 					pos[i]=z;

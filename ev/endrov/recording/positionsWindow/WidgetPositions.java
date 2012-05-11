@@ -75,6 +75,8 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 	private JButton bSave=new JButton("Save Positions");
 	private JButton bLoad=new JButton("Load Positions");
 	
+	private JButton bZero=new JButton("Go Zero");
+	
 	
 	public WidgetPositions()
 	{
@@ -87,11 +89,13 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 		bSave.addActionListener(this);
 		bLoad.addActionListener(this);
 		
+		bZero.addActionListener(this);
+		
 		JPanel bPanel = new JPanel();
 		JPanel posPanel=new JPanel(new BorderLayout());
 		this.setLayout(new BorderLayout());
 		
-		bPanel.add(EvSwingUtil.layoutCompactVertical(bAdd,bRemove,bGoTo,bMoveUp,bMoveDown,bSave,bLoad));
+		bPanel.add(EvSwingUtil.layoutCompactVertical(bAdd,bRemove,bGoTo,bMoveUp,bMoveDown,bSave,bLoad, bZero));
 		
 		listModel = new DefaultListModel();
 		
@@ -153,11 +157,16 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 				pos = (Position) RecordingResource.posList.get(index);
 				
 				Map<String, Double> gotoPos=new HashMap<String, Double>();
+							
+				//spara in gamla värden
+				
 				
 				for(int i = 0; i<pos.getAxisInfo().length; i++){
 					gotoPos.put(pos.getAxisInfo()[i].getDevice().getAxisName()[pos.getAxisInfo()[i].getAxis()],
 							pos.getAxisInfo()[i].getValue());
 				}
+				
+				
 				
 				RecordingResource.setStagePos(gotoPos);
 				
@@ -244,6 +253,16 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 			}		
 			RecordingResource.posListUpdated();
 
+		}
+		else if (e.getSource() == bZero){
+
+			Map<String, Double> gotoPos=new HashMap<String, Double>();
+	
+			gotoPos.put("Z", 7783.0);
+			gotoPos.put("X", 0.0);
+			gotoPos.put("Y", 0.0);
+	
+			RecordingResource.setStagePos(gotoPos);
 		}
 	}
 	

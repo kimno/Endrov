@@ -370,16 +370,115 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 		return (EvDevicePath)cameraCombo.getSelectedItem();
 		}
 	
+//	/**
+//	 * Take one picture from the camera	
+//	 */
+//	private void snapCamera()
+//		{	
+//		HWCamera cam=getCurrentCamera();	
+//		
+//		if(cam!=null){	
+//			CameraImage cim=cam.snap();
+//			lastCameraImage=cim.getPixels();
+//			EvPixels newImage = lastCameraImage[0];
+//			EvPixels oldImage = drawArea.overviewImage;		
+//			
+//			Vector2d newImgPos=new Vector2d(0,0);
+//			Vector2d oldImgPos=new Vector2d(0,0);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//			
+//			
+//			if(drawArea.overviewImage.getWidth() == 1 && drawArea.overviewImage.getHeight() == 1){
+//				
+//				drawArea.setWorldOffset(getStageX(), getStageY());			
+//			}
+//			
+//			
+//			
+//			if(getStageX()>imageOffset.x){
+//				oldImgPos.x = getStageX()-imageOffset.x;
+//				imageOffset.x = getStageX();
+//				imgWidth = oldImage.getWidth() + (int)oldImgPos.x;		
+//				
+//			}else{			
+//				if(oldImage.getWidth() >= -getStageX() + newImage.getWidth()+imageOffset.x){
+//					imgWidth = (int)(oldImage.getWidth());
+//					System.out.println("A");
+//				}
+//				else{
+//					imgWidth = (int)(-getStageX() + newImage.getWidth()+imageOffset.x);
+//					System.out.println("B");
+//				}
+//			}
+//			
+//			if(getStageY()>imageOffset.y){
+//				oldImgPos.y = getStageY()-imageOffset.y;
+//				imageOffset.y= getStageY();
+//				imgHeight = oldImage.getHeight() + (int)oldImgPos.y;			
+//			}else{
+//				if(oldImage.getHeight() >= -getStageY() + newImage.getHeight()+imageOffset.y){
+//					imgHeight = (int)(oldImage.getHeight());
+//					System.out.println("C");
+//				}
+//				else{
+//					imgHeight = (int)(-getStageY() + newImage.getHeight()+imageOffset.y);
+//					System.out.println("D");		
+//				}
+//			}
+//			
+//			newImgPos = new Vector2d(imageOffset.x-getStageX(), imageOffset.y-getStageY());
+//			
+//			
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//	
+//			
+//			
+//			EvPixels done = new EvPixels(EvPixelsType.INT, imgWidth, imgHeight);
+//			
+//			int[] doneA= done.convertToInt(true).getArrayInt();
+//			int[] oldA = oldImage.convertToInt(true).getArrayInt();
+//			int[] newA = newImage.convertToInt(true).getArrayInt();
+//			
+//			System.out.println("old "+oldA.length +" new "+ newA.length +" done "+ doneA.length);
+//			System.out.println("wide "+done.getWidth() +" high" + done.getHeight());
+//			
+//			for(int y=0; y<oldImage.getHeight();y++){
+//				for(int x=0; x<oldImage.getWidth();x++){
+//					doneA[(y+(int)oldImgPos.y)*done.getWidth() + (x+(int)oldImgPos.x)] 
+//							= oldA[y*oldImage.getWidth() + x];
+//				}
+//			}
+//			for(int y=0; y<newImage.getHeight();y++){
+//				for(int x=0; x<newImage.getWidth();x++){
+//					doneA[(y+(int)newImgPos.y)*done.getWidth() + (x+(int)newImgPos.x)]
+//							= newA[y*newImage.getWidth() + x];
+//				}
+//			}
+//			
+//			
+//			drawArea.overviewImage = done;
+//
+//		}
+//
+//		drawArea.repaint();
+//	
+//		//drawArea
+//		
+//		//stoppa i overviewimage
+//		//kan behöva förstora bild. fråga: upplösning? offset?
+//		
+//		//kolla i förra snapcamera		
+//		
+//		}
+	
 	/**
 	 * Take one picture from the camera	
 	 */
 	private void snapCamera()
-		{
-		///////////////// koda denna!!!!!!
-		
+		{	
 		HWCamera cam=getCurrentCamera();	
 		
-		if(cam!=null){		
+		if(cam!=null){	
 			CameraImage cim=cam.snap();
 			lastCameraImage=cim.getPixels();
 			EvPixels newImage = lastCameraImage[0];
@@ -389,38 +488,45 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 			Vector2d oldImgPos=new Vector2d(0,0);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			
-			if(getStageX()>imageOffset.x){
-				oldImgPos.x = getStageX()-imageOffset.x;
-				imageOffset.x = getStageX();
+					
+				//ResolutionManager.Resolution res=ResolutionManager.getCurrentResolutionNotNull(campath);
+				ResolutionManager.Resolution res = new ResolutionManager.Resolution(0.5, 0.5);
+			
+			
+			if(-getStageX()*res.x >imageOffset.x){
+				oldImgPos.x = -getStageX()*res.x-imageOffset.x;
+				imageOffset.x = -getStageX()*res.x;
 				imgWidth = oldImage.getWidth() + (int)oldImgPos.x;		
 				
 			}else{			
-				if(oldImage.getWidth() >= -getStageX() + newImage.getWidth()+imageOffset.x){
+				if(oldImage.getWidth() >= getStageX()*res.x + newImage.getWidth()+imageOffset.x){
 					imgWidth = (int)(oldImage.getWidth());
 					System.out.println("A");
 				}
 				else{
-					imgWidth = (int)(-getStageX() + newImage.getWidth()+imageOffset.x);
+					imgWidth = (int)(getStageX()*res.x + newImage.getWidth()+imageOffset.x);
 					System.out.println("B");
 				}
 			}
 			
-			if(getStageY()>imageOffset.y){
-				oldImgPos.y = getStageY()-imageOffset.y;
-				imageOffset.y= getStageY();
+			if(-getStageY()*res.y>imageOffset.y){
+				oldImgPos.y = -getStageY()*res.y-imageOffset.y;
+				imageOffset.y= -getStageY()*res.y;
 				imgHeight = oldImage.getHeight() + (int)oldImgPos.y;			
 			}else{
-				if(oldImage.getHeight() >= -getStageY() + newImage.getHeight()+imageOffset.y){
+				if(oldImage.getHeight() >= getStageY()*res.y + newImage.getHeight()+imageOffset.y){
 					imgHeight = (int)(oldImage.getHeight());
 					System.out.println("C");
 				}
 				else{
-					imgHeight = (int)(-getStageY() + newImage.getHeight()+imageOffset.y);
+					imgHeight = (int)(getStageY()*res.y + newImage.getHeight()+imageOffset.y);
 					System.out.println("D");		
 				}
 			}
 			
-			newImgPos = new Vector2d(imageOffset.x-getStageX(), imageOffset.y-getStageY());
+			newImgPos = new Vector2d(imageOffset.x+getStageX()*res.x, imageOffset.y+getStageY()*res.y);
+			
+			
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 			

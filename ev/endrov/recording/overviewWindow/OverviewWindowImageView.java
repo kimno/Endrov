@@ -37,6 +37,7 @@ import endrov.imageset.EvPixelsType;
 import endrov.recording.CameraImage;
 import endrov.recording.RecordingResource;
 import endrov.recording.ResolutionManager;
+import endrov.recording.ResolutionManager.Resolution;
 import endrov.recording.device.HWCamera;
 import endrov.recording.positionsWindow.Position;
 import endrov.util.Vector2i;
@@ -55,9 +56,20 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 	
 	private Vector2d cameraPos=new Vector2d();
 	
-	public EvPixels overviewImage = new EvPixels(EvPixelsType.INT,512,512);
+	public EvPixels overviewImage = new EvPixels(EvPixelsType.INT,1344,1024);
 	private double scale;
 
+	private Vector2d worldOffset = new Vector2d(); 
+	
+	
+	public Vector2d getWorldOffset(){
+		return worldOffset;
+	}
+	
+	public void setWorldOffset(double x, double y){
+		worldOffset = new Vector2d(x,y);
+	}
+	
 	public Vector2d getCameraPos(){
 		return cameraPos;
 	}
@@ -244,9 +256,9 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 
 //			g.setColor(new Color(255,255,255));
 
-			g.fillOval((int) (-pos.getX()+getOffset().x+256), (int) (-pos.getY()+getOffset().y+256), 5, 5);
+			//g.fillOval((int) (-pos.getX()+getOffset().x+256), (int) (-pos.getY()+getOffset().y+256), 5, 5);
 			g.setFont(new Font("Arial", Font.PLAIN, 12));
-			g.drawString(pos.toString(), (int) (-pos.getX()+getOffset().x+256), (int) (-pos.getY()+getOffset().y+256));
+			//g.drawString(pos.toString(), (int) (-pos.getX()+getOffset().x+256), (int) (-pos.getY()+getOffset().y+256));
 		}		
 		g.translate(-offset.x, -offset.y);
 		}
@@ -259,14 +271,17 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 		EvDevicePath campath=getCameraPath();
 		if(campath!=null)
 			{
-			ResolutionManager.Resolution res=ResolutionManager.getCurrentResolutionNotNull(campath);
+//			ResolutionManager.Resolution res=ResolutionManager.getCurrentResolutionNotNull(campath);
+			ResolutionManager.Resolution res = new ResolutionManager.Resolution(0.5, 0.5);
+
 			
 
 			Map<String, Double> diff=new HashMap<String, Double>();		
 	
-			
-			diff.put("x",-(lastMousePosition.x/scale-256-cameraPos.x/scale-getOffset().x));
-			diff.put("y",-(lastMousePosition.y/scale-256-cameraPos.y/scale-getOffset().y));
+			diff.put("X",(lastMousePosition.x/scale-772-cameraPos.x/scale-getOffset().x)/res.x);
+			diff.put("Y",(lastMousePosition.y/scale-512-cameraPos.y/scale-getOffset().y)/res.y);
+//			diff.put("x",-(lastMousePosition.x/scale-256-cameraPos.x/scale-getOffset().x));
+//			diff.put("y",-(lastMousePosition.y/scale-256-cameraPos.y/scale-getOffset().y));
 			
 			System.out.println("camera X "+ cameraPos.x + " Y "+ cameraPos.y + " scale "+scale);
 			System.out.println("mousePos X " +lastMousePosition.x +" mousePos Y " + lastMousePosition.y);
@@ -274,9 +289,7 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 		
 			RecordingResource.setStagePos(diff);
 			repaint();
-			//TODO update manual view
-			
-			
+			//TODO update manual view			
 			}
 		else
 			System.out.println("No camera to move");
@@ -366,10 +379,16 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 		
 		double dz=e.getWheelRotation();
 
-		scale += (double)dz/10;
-		if(scale<0.1){
-			scale = 0.1;
+		if(dz > 0){
+			scale /= 1.5;
+		}else if(dz < 0){
+			scale *= 1.5;
 		}
+				
+//		scale -= (double)dz/10;
+//		if(scale<0.1){
+//			scale = 0.1;
+//		}
 		
 		/*
 		//TODO magnification
