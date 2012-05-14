@@ -59,16 +59,16 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 	public EvPixels overviewImage = new EvPixels(EvPixelsType.INT,1344,1024);
 	private double scale;
 
-	private Vector2d worldOffset = new Vector2d(); 
-	
-	
-	public Vector2d getWorldOffset(){
-		return worldOffset;
-	}
-	
-	public void setWorldOffset(double x, double y){
-		worldOffset = new Vector2d(x,y);
-	}
+//	private Vector2d worldOffset = new Vector2d(); 
+//	
+//	
+//	public Vector2d getWorldOffset(){
+//		return worldOffset;
+//	}
+//	
+//	public void setWorldOffset(double x, double y){
+//		worldOffset = new Vector2d(x,y);
+//	}
 	
 	public Vector2d getCameraPos(){
 		return cameraPos;
@@ -106,7 +106,7 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 	public OverviewWindowImageView()
 		{
 		//skall kolla upplösning?
-		scale = 1.0;
+		scale = 0.5;
 		
 		//overviewImage=new EvPixels();	
 		
@@ -373,30 +373,42 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 			currentTool.mouseMoved(e, dx, dy);
 		
 		}
+	
 	public void mouseWheelMoved(MouseWheelEvent e)
-		{
-		//övning!!!
+		{		
+		
+//		Vector2i mousePos=new Vector2i(e.getX(),e.getY());
+//		double cameraDiffX = (cameraPos.x + overviewImage.getWidth()*scale) - mousePos.x;
+//		double cameraDiffY = (cameraPos.y + overviewImage.getHeight()*scale) - mousePos.y;
+//		
+//		cameraPos =new Vector2d(cameraPos.x+cameraDiffX,cameraPos.y+cameraDiffY);
+//		
+//		
+//		double dz=e.getWheelRotation();
+//
+//		if(dz > 0){
+//			scale /= 1.5;
+//		}else if(dz < 0){
+//			scale *= 1.5;
+//		}
+		
+		Vector2i mousePos=new Vector2i(e.getX(),e.getY());
+		Vector2d cameraOffset=new Vector2d();
+
 		
 		double dz=e.getWheelRotation();
 
 		if(dz > 0){
 			scale /= 1.5;
+			cameraOffset=new Vector2d((-mousePos.x+cameraPos.x)/3,(-mousePos.y+cameraPos.y)/3);
 		}else if(dz < 0){
 			scale *= 1.5;
+			cameraOffset=new Vector2d((mousePos.x-cameraPos.x)*0.5,(mousePos.y-cameraPos.y)*0.5);
+
 		}
-				
-//		scale -= (double)dz/10;
-//		if(scale<0.1){
-//			scale = 0.1;
-//		}
+		cameraPos =new Vector2d(cameraPos.x-cameraOffset.x,cameraPos.y-cameraOffset.y);
+
 		
-		/*
-		//TODO magnification
-		int dz=e.getWheelRotation();
-		Map<String, Double> diff=new HashMap<String, Double>();
-		diff.put("z",dz*10.0);
-		RecordingResource.setRelStagePos(diff);
-		*/
 		repaint();
 		}
 	

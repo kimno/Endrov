@@ -258,7 +258,7 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 
 			Map<String, Double> gotoPos=new HashMap<String, Double>();
 	
-			gotoPos.put("Z", 7783.0);
+			gotoPos.put("Z", 0.0);
 			gotoPos.put("X", 0.0);
 			gotoPos.put("Y", 0.0);
 	

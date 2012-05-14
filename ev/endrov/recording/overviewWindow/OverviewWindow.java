@@ -583,7 +583,7 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 		imgWidth=0;
 		imgHeight=0;
 		drawArea.resetCameraPos();
-		drawArea.overviewImage = new EvPixels(EvPixelsType.INT,512,512);
+		drawArea.overviewImage = new EvPixels(EvPixelsType.INT,1344,1024);
 		repaint();
 	}
 	
