@@ -134,7 +134,29 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 								);
 			}
 			
-			Position newPos = new Position(newInfo);
+			//generate index name
+			int index = 0;
+			boolean indexNotFound = true;
+			String newName = "POS"+index;
+			while(indexNotFound){
+				index++;
+				newName = "POS"+index;
+				if(RecordingResource.posList.size()>0){
+					for(Position pos:RecordingResource.posList){
+						if(pos.getName().compareTo(newName)==0){
+							indexNotFound = true;
+							break;
+						}else{
+							indexNotFound = false;		
+						}
+					}
+				}
+				else{
+					break;
+				}
+			}
+			
+			Position newPos = new Position(newInfo, newName);
 			RecordingResource.posList.add(newPos);
 			
 			RecordingResource.posListUpdated();
@@ -258,7 +280,7 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 
 			Map<String, Double> gotoPos=new HashMap<String, Double>();
 	
-			gotoPos.put("Z", 0.0);
+			gotoPos.put("Z", 88.0);
 			gotoPos.put("X", 0.0);
 			gotoPos.put("Y", 0.0);
 	
@@ -287,6 +309,7 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 		listModel.removeAllElements();
 		for(int i = 0; i< RecordingResource.posList.size(); i++){
 			listModel.addElement(RecordingResource.posList.get(i));	
+			
 		}
 		
 	}

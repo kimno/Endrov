@@ -16,16 +16,21 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import endrov.data.EvPath;
 import endrov.data.tree.DataTree;
+import endrov.recording.RecordingResource;
+import endrov.recording.RecordingResource.PositionListListener;
+import endrov.recording.positionsWindow.Position;
 import endrov.util.EvSwingUtil;
 
 /**
@@ -33,7 +38,7 @@ import endrov.util.EvSwingUtil;
  * @author Johan Henriksson
  *
  */
-public class RecWidgetPositions extends JPanel implements ActionListener
+public class RecWidgetPositions extends JPanel implements ActionListener, PositionListListener
 	{
 	private static final long serialVersionUID = 1L;
 	
@@ -45,9 +50,10 @@ public class RecWidgetPositions extends JPanel implements ActionListener
 	private JCheckBox cUseGrid=new JCheckBox("Use grid");
 	private JButton bSetGrid=new JButton("Configure");
 	
-	private List<EvPath> roiList=new ArrayList<EvPath>();
+	//private List<EvPath> roiList=new ArrayList<EvPath>();
+	//private List<Position> posList=new ArrayList<Position>();
 	
-	private DataTree dataTree=new DataTree();
+	//private DataTree dataTree=new DataTree();
 	
 	private JButton bAdd=new JButton("Add>");
 	private JButton bRemove=new JButton("<Remove");
@@ -56,6 +62,7 @@ public class RecWidgetPositions extends JPanel implements ActionListener
 	/**
 	 * GUI Model for the list of added ROIs
 	 */
+	/*
 	private class ListModelROI implements ListModel
 		{
 		public List<ListDataListener> listeners=new LinkedList<ListDataListener>(); 
@@ -80,14 +87,54 @@ public class RecWidgetPositions extends JPanel implements ActionListener
 			listeners.remove(l);
 			}
 		}
+	*/
 	
+	/**
+	 * GUI Model for the list of added ROIs
+	 */
+	/*
+	private class ListModelPOS implements ListModel
+		{
+		public List<ListDataListener> listeners=new LinkedList<ListDataListener>(); 
+		
+		public void addListDataListener(ListDataListener l)
+			{
+			listeners.add(l);
+			}
+	
+		public Object getElementAt(int index)
+			{
+			return posList.get(index);
+			}
+	
+		public int getSize()
+			{
+			return posList.size();
+			}
+	
+		public void removeListDataListener(ListDataListener l)
+			{
+			listeners.remove(l);
+			}
+		}
+	*/
+	
+	/*
 	private ListModelROI listModelAdded=new ListModelROI();
 	private JList listUseROIs=new JList(listModelAdded);
+	*/
+	private DefaultListModel listModel=new DefaultListModel();
+	private JList posList=new JList(listModel);
+	private JScrollPane listScroller = new JScrollPane(posList);
+	
+	private DefaultListModel listModelAdded=new DefaultListModel();
+	private JList posListAdded=new JList(listModelAdded);
+	private JScrollPane listScrollerAdded = new JScrollPane(posListAdded);
 	
 	
 	public RecSettingsPositions getSettings()
 		{
-		RecSettingsPositions settings=new RecSettingsPositions();
+		RecSettingsPositions settings=new RecSettingsPositions(getPositions());
 		return settings;
 		}
 	
@@ -97,6 +144,12 @@ public class RecWidgetPositions extends JPanel implements ActionListener
 		bRemove.addActionListener(this);
 		bSetGrid.addActionListener(this);
 		
+		RecordingResource.posListListeners.addWeakListener(this);
+
+		for(Position pos:RecordingResource.posList){
+			listModel.addElement(pos);
+		}
+		
 		cbAutofocus.setToolTipText("Autofocus for each position the first time");
 		cUseGrid.setToolTipText("Take positions from a grid (typical for stitching)");
 
@@ -105,7 +158,7 @@ public class RecWidgetPositions extends JPanel implements ActionListener
 		c.fill=GridBagConstraints.BOTH;
 		c.weightx=1;
 		c.gridx=0;
-		roiPanel.add(dataTree,c);
+		roiPanel.add(listScroller,c);
 		
 		c.weightx=0;
 		c.gridx=1;
@@ -116,7 +169,8 @@ public class RecWidgetPositions extends JPanel implements ActionListener
 		
 		c.weightx=1;
 		c.gridx=2;
-		roiPanel.add(listUseROIs,c);
+		//roiPanel.add(listUseROIs,c);
+		roiPanel.add(listScrollerAdded,c);
 		
 		setLayout(new GridLayout(1,1));
 		add(
@@ -133,6 +187,7 @@ public class RecWidgetPositions extends JPanel implements ActionListener
 			));
 		
 		
+	
 		
 		}
 
@@ -141,6 +196,7 @@ public class RecWidgetPositions extends JPanel implements ActionListener
 		{
 		if(e.getSource()==bAdd)
 			{
+			/*
 			//Add new path to list of selected ROIs
 			Set<EvPath> paths=new TreeSet<EvPath>();
 			paths.addAll(roiList);
@@ -152,10 +208,20 @@ public class RecWidgetPositions extends JPanel implements ActionListener
 			for(ListDataListener l:listModelAdded.listeners)
 				l.contentsChanged(new ListDataEvent(listModelAdded, ListDataEvent.CONTENTS_CHANGED, 0, roiList.size()));
 			listUseROIs.repaint();
+			*/
+				int index = posList.getSelectedIndex();
+				if(index >=0){
+					listModelAdded.addElement(listModel.get(index));
+					listModel.remove(index);
+				}
 			}
 		else if(e.getSource()==bRemove)
 			{
-			
+				int index = posListAdded.getSelectedIndex();
+				if(index >=0){
+					listModel.addElement(listModelAdded.get(index));
+					listModelAdded.remove(index);
+				}
 			}
 		else if(e.getSource()==bSetGrid)
 			{
@@ -170,5 +236,57 @@ public class RecWidgetPositions extends JPanel implements ActionListener
 		//TODO
 		//roiList.
 		}
-	
+
+	public void positionsUpdated() {
+		
+		boolean found = false;
+		if(RecordingResource.posList.size() > listModel.getSize()+listModelAdded.getSize()){
+			listModel.addElement(RecordingResource.posList.get(RecordingResource.posList.size() -1 ));
+		}else if(RecordingResource.posList.size() < listModel.getSize()+listModelAdded.getSize()){
+			for(int i = 0; i < listModel.getSize();i++){
+				found = false;
+				for(Position p:RecordingResource.posList){
+					if(listModel.get(i).equals(p)){
+						found = true;
+					}
+				}
+				if(!found){
+					listModel.remove(i);
+				}
+			}
+			for(int j = 0; j < listModelAdded.getSize(); j++){
+				found = false;
+				for(Position p:RecordingResource.posList){
+					if(listModelAdded.get(j).equals(p)){
+						found = true;
+					}
+				}
+				if(!found){
+					listModelAdded.remove(j);
+				}
+			}
+		}
+		
+//		for(int i = 0; i< RecordingResource.posList.size(); i++){
+//			for(int j = 0; j< listModel.size(); j++){
+//				if(listModel.get(j).equals(RecordingResource.posList.get(i))){
+//					listModel.addElement(RecordingResource.posList.get(i));	
+//				}
+//			}
+//		
+//		listModel.addElement(RecordingResource.posList.get(i));	
+//		}
+		
+		
 	}
+	
+	public LinkedList<Position> getPositions(){
+		List<Position> positions = new LinkedList<Position>();
+		for(int i = 0; i< listModelAdded.size(); i++){
+			positions.add((Position) listModelAdded.get(i));
+		}
+			
+		return (LinkedList<Position>) positions;
+	}
+	
+}

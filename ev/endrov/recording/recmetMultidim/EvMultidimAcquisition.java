@@ -1,8 +1,11 @@
 package endrov.recording.recmetMultidim;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JMenu;
 import javax.vecmath.Vector3d;
 
@@ -29,6 +32,7 @@ import endrov.recording.ResolutionManager;
 import endrov.recording.device.HWCamera;
 import endrov.recording.device.HWTrigger;
 import endrov.recording.device.HWTrigger.TriggerListener;
+import endrov.recording.positionsWindow.Position;
 import endrov.recording.widgets.RecSettingsChannel;
 import endrov.recording.widgets.RecSettingsDimensionsOrder;
 import endrov.recording.widgets.RecSettingsPositions;
@@ -36,6 +40,7 @@ import endrov.recording.widgets.RecSettingsRecDesc;
 import endrov.recording.widgets.RecSettingsSlices;
 import endrov.recording.widgets.RecSettingsTimes;
 import endrov.recording.widgets.RecSettingsTimes.TimeType;
+import endrov.recording.widgets.RecWidgetPositions;
 import endrov.util.EvDecimal;
 import endrov.util.ProgressHandle;
 
@@ -86,6 +91,8 @@ public class EvMultidimAcquisition extends EvAcquisition
 		
 		private int currentZCount;
 		private EvDecimal dz;
+		
+		private String currentPos;
 		
 		private RecSettingsChannel.OneChannel currentChannel;
 		
@@ -342,19 +349,31 @@ public class EvMultidimAcquisition extends EvAcquisition
 		 * Move to the next position, recurse
 		 */
 		private class RecOpPos extends RecOp
-			{
+		{
 			public void exec()
+			{	
+				for(Position pos:positions.positions)
 				{
-				//TODO
-				recurse.exec();
-				}
+					Map<String, Double> gotoPos=new HashMap<String, Double>();			
+					
+					//get all the axis'
+					for(int i = 0; i<pos.getAxisInfo().length; i++){
+						gotoPos.put(pos.getAxisInfo()[i].getDevice().getAxisName()[pos.getAxisInfo()[i].getAxis()],
+								pos.getAxisInfo()[i].getValue());
+					}
+					//go to position
+					RecordingResource.setStagePos(gotoPos);
+					
+					System.out.println("Position "+pos.getName());
+					
+					currentPos=pos.getName();		
+					
+					recurse.exec();
+					
+				}			
 			}
-		
-		
-		//////////////////////////////
-		//////////////////////////////
-		//////////////////////////////
-		
+		}
+	
 
 		/**
 		 * Build a call stack out of the operations. Returns the first operation.

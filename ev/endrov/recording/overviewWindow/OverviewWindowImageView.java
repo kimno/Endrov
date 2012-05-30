@@ -19,6 +19,7 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Vector;
 
@@ -27,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.vecmath.Vector2d;
+
 
 import endrov.basicWindow.EvColor;
 import endrov.hardware.EvDevicePath;
@@ -39,8 +41,10 @@ import endrov.recording.RecordingResource;
 import endrov.recording.ResolutionManager;
 import endrov.recording.ResolutionManager.Resolution;
 import endrov.recording.device.HWCamera;
+import endrov.recording.positionsWindow.AxisInfo;
 import endrov.recording.positionsWindow.Position;
 import endrov.util.Vector2i;
+
 
 /**
  * 
@@ -56,20 +60,11 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 	
 	private Vector2d cameraPos=new Vector2d();
 	
+	//has to ensure the first picture can fit
 	public EvPixels overviewImage = new EvPixels(EvPixelsType.INT,1344,1024);
+
 	private double scale;
 
-//	private Vector2d worldOffset = new Vector2d(); 
-//	
-//	
-//	public Vector2d getWorldOffset(){
-//		return worldOffset;
-//	}
-//	
-//	public void setWorldOffset(double x, double y){
-//		worldOffset = new Vector2d(x,y);
-//	}
-	
 	public Vector2d getCameraPos(){
 		return cameraPos;
 	}
@@ -128,6 +123,7 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 				
 		//Make sure background is filled with something
 		//g.setColor(new Color(0.3f, 0.1f, 0.3f));
+//		g.setColor(new Color(0, 0, 0));
 		g.setColor(new Color(0, 0, 0));
 		g.fillRect(0, 0, getWidth(), getHeight());
 
@@ -249,17 +245,33 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 			r.draw(g);
 		
 		
+//		for(Position de:RecordingResource.posList){
+//			de.getName();
+//			de.getColor();
+//		}
 		
 		for(Position pos:RecordingResource.posList){
-
+			
 			g.setColor(pos.getColor().getAWTColor());
 
 //			g.setColor(new Color(255,255,255));
 
-			//g.fillOval((int) (-pos.getX()+getOffset().x+256), (int) (-pos.getY()+getOffset().y+256), 5, 5);
+//			g.fillOval((int) (-pos.getX()+getOffset().x+256), (int) (-pos.getY()+getOffset().y+256), 5, 5);
+			double xPos = 0;
+			double yPos = 0;
+			
+			for(AxisInfo info:pos.getAxisInfo()){
+				if(info.getDevice().getAxisName()[info.getAxis()].contains("X")){
+					xPos=info.getValue();
+				}else if(info.getDevice().getAxisName()[info.getAxis()].contains("Y")){
+					yPos=info.getValue();
+				}
+			}
+			g.fillOval((int)( xPos/2+672+getOffset().x), (int) (yPos/2+512+getOffset().y), 10, 10);
 			g.setFont(new Font("Arial", Font.PLAIN, 12));
-			//g.drawString(pos.toString(), (int) (-pos.getX()+getOffset().x+256), (int) (-pos.getY()+getOffset().y+256));
+			g.drawString(pos.toString(), (int)( xPos/2+672+getOffset().x), (int) (yPos/2+512+getOffset().y));
 		}		
+		
 		g.translate(-offset.x, -offset.y);
 		}
 	
@@ -271,17 +283,12 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 		EvDevicePath campath=getCameraPath();
 		if(campath!=null)
 			{
-//			ResolutionManager.Resolution res=ResolutionManager.getCurrentResolutionNotNull(campath);
-			ResolutionManager.Resolution res = new ResolutionManager.Resolution(0.5, 0.5);
-
-			
+			ResolutionManager.Resolution res=ResolutionManager.getCurrentResolutionNotNull(campath);
 
 			Map<String, Double> diff=new HashMap<String, Double>();		
-	
-			diff.put("X",(lastMousePosition.x/scale-772-cameraPos.x/scale-getOffset().x)/res.x);
-			diff.put("Y",(lastMousePosition.y/scale-512-cameraPos.y/scale-getOffset().y)/res.y);
-//			diff.put("x",-(lastMousePosition.x/scale-256-cameraPos.x/scale-getOffset().x));
-//			diff.put("y",-(lastMousePosition.y/scale-256-cameraPos.y/scale-getOffset().y));
+			
+			diff.put("X",(lastMousePosition.x/scale-672-cameraPos.x/scale-getOffset().x)*res.x);
+			diff.put("Y",(lastMousePosition.y/scale-512-cameraPos.y/scale-getOffset().y)*res.y);
 			
 			System.out.println("camera X "+ cameraPos.x + " Y "+ cameraPos.y + " scale "+scale);
 			System.out.println("mousePos X " +lastMousePosition.x +" mousePos Y " + lastMousePosition.y);
@@ -289,7 +296,7 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 		
 			RecordingResource.setStagePos(diff);
 			repaint();
-			//TODO update manual view			
+		
 			}
 		else
 			System.out.println("No camera to move");
@@ -309,6 +316,8 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 		}
 	public void mousePressed(MouseEvent e)
 		{
+		ResolutionManager.Resolution res=ResolutionManager.getCurrentResolutionNotNull(getCameraPath());
+
 		lastMousePosition=new Vector2i(e.getX(),e.getY());
 		if(currentTool!=null)
 			currentTool.mousePressed(e);
@@ -322,6 +331,7 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 		{
 //		for(JToggleButton b:toolButtons)
 //			if(b.isSelected()) move = false;
+		
 		int dx=e.getX()-lastMousePosition.x;
 		int dy=e.getY()-lastMousePosition.y;
 		lastMousePosition=new Vector2i(e.getX(),e.getY());
@@ -377,21 +387,6 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 	public void mouseWheelMoved(MouseWheelEvent e)
 		{		
 		
-//		Vector2i mousePos=new Vector2i(e.getX(),e.getY());
-//		double cameraDiffX = (cameraPos.x + overviewImage.getWidth()*scale) - mousePos.x;
-//		double cameraDiffY = (cameraPos.y + overviewImage.getHeight()*scale) - mousePos.y;
-//		
-//		cameraPos =new Vector2d(cameraPos.x+cameraDiffX,cameraPos.y+cameraDiffY);
-//		
-//		
-//		double dz=e.getWheelRotation();
-//
-//		if(dz > 0){
-//			scale /= 1.5;
-//		}else if(dz < 0){
-//			scale *= 1.5;
-//		}
-		
 		Vector2i mousePos=new Vector2i(e.getX(),e.getY());
 		Vector2d cameraOffset=new Vector2d();
 
@@ -411,7 +406,6 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 		
 		repaint();
 		}
-	
 	
 	
 	}

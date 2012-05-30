@@ -10,6 +10,9 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.swing.*;
 
 import org.jdom.*;
@@ -17,6 +20,7 @@ import org.jdom.*;
 import endrov.basicWindow.*;
 import endrov.data.EvData;
 import endrov.recording.EvAcquisition;
+import endrov.recording.positionsWindow.Position;
 import endrov.recording.widgets.RecWidgetChannel;
 import endrov.recording.widgets.RecWidgetOrder;
 import endrov.recording.widgets.RecWidgetPositions;
@@ -38,6 +42,7 @@ public class RecWindowMultiDim extends BasicWindow
 
 	private EvMultidimAcquisition acq=new EvMultidimAcquisition();
 
+//	private List<Position> positions = new LinkedList<Position>();
 	
 	private RecWidgetSlices wslices=new RecWidgetSlices();
 	private RecWidgetTimes wtimes=new RecWidgetTimes();
