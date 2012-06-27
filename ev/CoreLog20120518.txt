@@ -1,0 +1,356 @@
+LOG(2012-05-18T14:37:19.615716, 12359, 0xb0101000:): -------->>
+LOG(2012-05-18T14:37:19.616101, 12359, 0xb0101000:): Core session started on 2012-05-18T14:37:19.616101 by pswadmin on spain.biosci.ki.se
+LOG(2012-05-18T14:37:19.616179, 12359, 0xb0101000:): Debug logging disabled
+LOG(2012-05-18T14:37:19.618484, 12359, 0xb0101000:): Debug logging disabled
+LOG(2012-05-18T14:37:19.619737, 12359, 0xb0101000:): All devices unloaded.
+LOG(2012-05-18T14:37:19.679977, 12359, 0xb0101000:): Device /dev/tty.USA49W41P1.1 loaded from SerialManager and labeled as /dev/tty.USA49W41P1.1
+LOG(2012-05-18T14:37:19.680374, 12359, 0xb0101000:): Device /dev/tty.USA49W41P2.2 loaded from SerialManager and labeled as /dev/tty.USA49W41P2.2
+LOG(2012-05-18T14:37:19.742289, 12359, 0xb0101000:): Device ZeissScope loaded from ZeissCAN and labeled as ZeissScope
+LOG(2012-05-18T14:37:19.742658, 12359, 0xb0101000:): Device ZeissReflectorTurret loaded from ZeissCAN and labeled as ZeissReflectorTurret
+LOG(2012-05-18T14:37:19.742918, 12359, 0xb0101000:): Device ZeissObjectives loaded from ZeissCAN and labeled as ZeissObjectives
+LOG(2012-05-18T14:37:19.743153, 12359, 0xb0101000:): Device ZeissOptovar loaded from ZeissCAN and labeled as ZeissOptovar
+LOG(2012-05-18T14:37:19.743402, 12359, 0xb0101000:): Device ZeissFilterWheel1 loaded from ZeissCAN and labeled as ZeissFilterWheel1
+LOG(2012-05-18T14:37:19.743640, 12359, 0xb0101000:): Device ZeissFilterWheel2 loaded from ZeissCAN and labeled as ZeissFilterWheel2
+LOG(2012-05-18T14:37:19.743869, 12359, 0xb0101000:): Device ZeissHalogenLamp loaded from ZeissCAN and labeled as ZeissHalogenLamp
+LOG(2012-05-18T14:37:19.743890, 12359, 0xb0101000:): Device ZeissHalogenLamp set as default shutter.
+LOG(2012-05-18T14:37:19.744120, 12359, 0xb0101000:): Device ZeissShutter loaded from ZeissCAN and labeled as ZeissShutter
+LOG(2012-05-18T14:37:19.744141, 12359, 0xb0101000:): Device ZeissShutter set as default shutter.
+LOG(2012-05-18T14:37:19.744363, 12359, 0xb0101000:): Device Focus loaded from ZeissCAN and labeled as Focus
+LOG(2012-05-18T14:37:19.767988, 12359, 0xb0101000:): Device SimpleAutofocus loaded from SimpleAutofocus and labeled as SimpleAutofocus
+LOG(2012-05-18T14:37:19.768027, 12359, 0xb0101000:): Device SimpleAutofocus set as default auto-focus.
+LOG(2012-05-18T14:37:19.786927, 12359, 0xb0101000:): Device Hamamatsu_DCAM loaded from Hamamatsu and labeled as Hamamatsu_DCAM
+LOG(2012-05-18T14:37:19.786962, 12359, 0xb0101000:): Device Hamamatsu_DCAM set as default camera.
+LOG(2012-05-18T14:37:19.788834, 12359, 0xb0101000:): Device ITK Corvus Controller loaded from Corvus and labeled as ITK Corvus Controller
+LOG(2012-05-18T14:37:19.789106, 12359, 0xb0101000:): Device XY Stage loaded from Corvus and labeled as XY Stage
+LOG(2012-05-18T14:37:19.789127, 12359, 0xb0101000:): Device XY Stage set as default xyStage.
+LOG(2012-05-18T14:37:19.789825, 12359, 0xb0101000:): Starting initialization sequence for 15 devices...
+LOG(2012-05-18T14:37:19.800282, 12359, 0xb0101000:): Device /dev/tty.USA49W41P1.1 initialized.
+LOG(2012-05-18T14:37:19.809237, 12359, 0xb0101000:): Device /dev/tty.USA49W41P2.2 initialized.
+LOG(2012-05-18T14:37:19.836566, 12359, 0xb0101000:): Device ZeissScope initialized.
+LOG(2012-05-18T14:37:20.320485, 12359, 0xb0101000:): Device ZeissReflectorTurret initialized.
+LOG(2012-05-18T14:37:20.404194, 12359, 0xb0101000:): Device ZeissObjectives initialized.
+LOG(2012-05-18T14:37:20.487995, 12359, 0xb0101000:): Device ZeissOptovar initialized.
+LOG(2012-05-18T14:37:20.625553, 12359, 0xb0101000:): Device ZeissFilterWheel1 initialized.
+LOG(2012-05-18T14:37:20.800827, 12359, 0xb0101000:): Device ZeissFilterWheel2 initialized.
+LOG(2012-05-18T14:37:20.869792, 12359, 0xb0101000:): Device ZeissHalogenLamp initialized.
+LOG(2012-05-18T14:37:20.912089, 12359, 0xb0101000:): Device ZeissShutter initialized.
+LOG(2012-05-18T14:37:21.050555, 12359, 0xb0101000:): Device Focus initialized.
+LOG(2012-05-18T14:37:21.050624, 12359, 0xb0101000:): Device SimpleAutofocus message: SimpleAutofocus::Initialize()
+LOG(2012-05-18T14:37:21.051204, 12359, 0xb0101000:): Device SimpleAutofocus initialized.
+LOG(2012-05-18T14:37:22.717896, 12359, 0xb0101000:): Device Hamamatsu_DCAM message: DCAM Module Version: 3.00.351.4077
+LOG(2012-05-18T14:37:22.717944, 12359, 0xb0101000:): Device Hamamatsu_DCAM message: DCAM API Version: 3.00.351.4077
+LOG(2012-05-18T14:37:22.860580, 12359, 0xb0101000:): Device Hamamatsu_DCAM message: Camera Model: C4742-95-12ERG
+LOG(2012-05-18T14:37:22.860638, 12359, 0xb0101000:): Device Hamamatsu_DCAM message: CameraID: S/N: 720793
+LOG(2012-05-18T14:37:22.860670, 12359, 0xb0101000:): Device Hamamatsu_DCAM message: Camera Version: 1.01.02G
+LOG(2012-05-18T14:37:22.860702, 12359, 0xb0101000:): Device Hamamatsu_DCAM message: Driver version: 3.00.351.4077
+LOG(2012-05-18T14:37:22.860891, 12359, 0xb0101000:): Device Hamamatsu_DCAM message: ScanMode works
+LOG(2012-05-18T14:37:23.068291, 12359, 0xb0101000:): Device Hamamatsu_DCAM initialized.
+LOG(2012-05-18T14:37:23.068413, 12359, 0xb0101000:): Device ITK Corvus Controller message: in init
+LOG(2012-05-18T14:37:23.200562, 12359, 0xb0101000:): Device ITK Corvus Controller initialized.
+LOG(2012-05-18T14:37:23.200603, 12359, 0xb0101000:): Device XY Stage initialized.
+LOG(2012-05-18T14:37:23.201247, 12359, 0xb0101000:): Camera device set to Hamamatsu_DCAM
+LOG(2012-05-18T14:37:23.201660, 12359, 0xb0101000:): Focus device set to Focus
+LOG(2012-05-18T14:37:23.201769, 12359, 0xb0101000:): Auto shutter ON.
+LOG(2012-05-18T14:37:24.290668, 12359, 0xb0101000:): System state cache updated.
+LOG(2012-05-18T14:38:23.972939, 12359, 0xb13b2000:): Device XY Stage message: busy? status  D0..7 01000000
+LOG(2012-05-18T14:38:38.121840, 12359, 0xb13b2000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-18T14:44:23.092724, 12371, 0xb0101000:): -------->>
+LOG(2012-05-18T14:44:23.093108, 12371, 0xb0101000:): Core session started on 2012-05-18T14:44:23.093108 by pswadmin on spain.biosci.ki.se
+LOG(2012-05-18T14:44:23.093186, 12371, 0xb0101000:): Debug logging disabled
+LOG(2012-05-18T14:44:23.095567, 12371, 0xb0101000:): Debug logging disabled
+LOG(2012-05-18T14:44:23.096849, 12371, 0xb0101000:): All devices unloaded.
+LOG(2012-05-18T14:44:23.157287, 12371, 0xb0101000:): Device /dev/tty.USA49W41P1.1 loaded from SerialManager and labeled as /dev/tty.USA49W41P1.1
+LOG(2012-05-18T14:44:23.157680, 12371, 0xb0101000:): Device /dev/tty.USA49W41P2.2 loaded from SerialManager and labeled as /dev/tty.USA49W41P2.2
+LOG(2012-05-18T14:44:23.219477, 12371, 0xb0101000:): Device ZeissScope loaded from ZeissCAN and labeled as ZeissScope
+LOG(2012-05-18T14:44:23.219813, 12371, 0xb0101000:): Device ZeissReflectorTurret loaded from ZeissCAN and labeled as ZeissReflectorTurret
+LOG(2012-05-18T14:44:23.220054, 12371, 0xb0101000:): Device ZeissObjectives loaded from ZeissCAN and labeled as ZeissObjectives
+LOG(2012-05-18T14:44:23.220281, 12371, 0xb0101000:): Device ZeissOptovar loaded from ZeissCAN and labeled as ZeissOptovar
+LOG(2012-05-18T14:44:23.220524, 12371, 0xb0101000:): Device ZeissFilterWheel1 loaded from ZeissCAN and labeled as ZeissFilterWheel1
+LOG(2012-05-18T14:44:23.220757, 12371, 0xb0101000:): Device ZeissFilterWheel2 loaded from ZeissCAN and labeled as ZeissFilterWheel2
+LOG(2012-05-18T14:44:23.220985, 12371, 0xb0101000:): Device ZeissHalogenLamp loaded from ZeissCAN and labeled as ZeissHalogenLamp
+LOG(2012-05-18T14:44:23.221006, 12371, 0xb0101000:): Device ZeissHalogenLamp set as default shutter.
+LOG(2012-05-18T14:44:23.221241, 12371, 0xb0101000:): Device ZeissShutter loaded from ZeissCAN and labeled as ZeissShutter
+LOG(2012-05-18T14:44:23.221262, 12371, 0xb0101000:): Device ZeissShutter set as default shutter.
+LOG(2012-05-18T14:44:23.221483, 12371, 0xb0101000:): Device Focus loaded from ZeissCAN and labeled as Focus
+LOG(2012-05-18T14:44:23.245146, 12371, 0xb0101000:): Device SimpleAutofocus loaded from SimpleAutofocus and labeled as SimpleAutofocus
+LOG(2012-05-18T14:44:23.245186, 12371, 0xb0101000:): Device SimpleAutofocus set as default auto-focus.
+LOG(2012-05-18T14:44:23.264604, 12371, 0xb0101000:): Device Hamamatsu_DCAM loaded from Hamamatsu and labeled as Hamamatsu_DCAM
+LOG(2012-05-18T14:44:23.264646, 12371, 0xb0101000:): Device Hamamatsu_DCAM set as default camera.
+LOG(2012-05-18T14:44:23.266554, 12371, 0xb0101000:): Device ITK Corvus Controller loaded from Corvus and labeled as ITK Corvus Controller
+LOG(2012-05-18T14:44:23.266830, 12371, 0xb0101000:): Device XY Stage loaded from Corvus and labeled as XY Stage
+LOG(2012-05-18T14:44:23.266852, 12371, 0xb0101000:): Device XY Stage set as default xyStage.
+LOG(2012-05-18T14:44:23.267549, 12371, 0xb0101000:): Starting initialization sequence for 15 devices...
+LOG(2012-05-18T14:44:23.278299, 12371, 0xb0101000:): Device /dev/tty.USA49W41P1.1 initialized.
+LOG(2012-05-18T14:44:23.286377, 12371, 0xb0101000:): Device /dev/tty.USA49W41P2.2 initialized.
+LOG(2012-05-18T14:44:23.315158, 12371, 0xb0101000:): Device ZeissScope initialized.
+LOG(2012-05-18T14:44:23.800110, 12371, 0xb0101000:): Device ZeissReflectorTurret initialized.
+LOG(2012-05-18T14:44:23.884936, 12371, 0xb0101000:): Device ZeissObjectives initialized.
+LOG(2012-05-18T14:44:23.970521, 12371, 0xb0101000:): Device ZeissOptovar initialized.
+LOG(2012-05-18T14:44:24.113394, 12371, 0xb0101000:): Device ZeissFilterWheel1 initialized.
+LOG(2012-05-18T14:44:24.293636, 12371, 0xb0101000:): Device ZeissFilterWheel2 initialized.
+LOG(2012-05-18T14:44:24.363031, 12371, 0xb0101000:): Device ZeissHalogenLamp initialized.
+LOG(2012-05-18T14:44:24.404824, 12371, 0xb0101000:): Device ZeissShutter initialized.
+LOG(2012-05-18T14:44:24.544312, 12371, 0xb0101000:): Device Focus initialized.
+LOG(2012-05-18T14:44:24.544366, 12371, 0xb0101000:): Device SimpleAutofocus message: SimpleAutofocus::Initialize()
+LOG(2012-05-18T14:44:24.545068, 12371, 0xb0101000:): Device SimpleAutofocus initialized.
+LOG(2012-05-18T14:44:26.132987, 12371, 0xb0101000:): Device Hamamatsu_DCAM message: DCAM Module Version: 3.00.351.4077
+LOG(2012-05-18T14:44:26.133036, 12371, 0xb0101000:): Device Hamamatsu_DCAM message: DCAM API Version: 3.00.351.4077
+LOG(2012-05-18T14:44:26.275897, 12371, 0xb0101000:): Device Hamamatsu_DCAM message: Camera Model: C4742-95-12ERG
+LOG(2012-05-18T14:44:26.275982, 12371, 0xb0101000:): Device Hamamatsu_DCAM message: CameraID: S/N: 720793
+LOG(2012-05-18T14:44:26.276042, 12371, 0xb0101000:): Device Hamamatsu_DCAM message: Camera Version: 1.01.02G
+LOG(2012-05-18T14:44:26.276093, 12371, 0xb0101000:): Device Hamamatsu_DCAM message: Driver version: 3.00.351.4077
+LOG(2012-05-18T14:44:26.276277, 12371, 0xb0101000:): Device Hamamatsu_DCAM message: ScanMode works
+LOG(2012-05-18T14:44:26.506740, 12371, 0xb0101000:): Device Hamamatsu_DCAM initialized.
+LOG(2012-05-18T14:44:26.506821, 12371, 0xb0101000:): Device ITK Corvus Controller message: in init
+LOG(2012-05-18T14:44:26.636235, 12371, 0xb0101000:): Device ITK Corvus Controller initialized.
+LOG(2012-05-18T14:44:26.636278, 12371, 0xb0101000:): Device XY Stage initialized.
+LOG(2012-05-18T14:44:26.637091, 12371, 0xb0101000:): Camera device set to Hamamatsu_DCAM
+LOG(2012-05-18T14:44:26.637301, 12371, 0xb0101000:): Focus device set to Focus
+LOG(2012-05-18T14:44:26.637400, 12371, 0xb0101000:): Auto shutter ON.
+LOG(2012-05-18T14:44:27.730517, 12371, 0xb0101000:): System state cache updated.
+LOG(2012-05-18T14:44:38.417030, 12371, 0xb13b2000:): Device XY Stage message: busy? status  D0..7 01000000
+LOG(2012-05-18T14:53:02.780197, 12382, 0xb0101000:): -------->>
+LOG(2012-05-18T14:53:02.780572, 12382, 0xb0101000:): Core session started on 2012-05-18T14:53:02.780572 by pswadmin on spain.biosci.ki.se
+LOG(2012-05-18T14:53:02.780650, 12382, 0xb0101000:): Debug logging disabled
+LOG(2012-05-18T14:53:02.782984, 12382, 0xb0101000:): Debug logging disabled
+LOG(2012-05-18T14:53:02.784223, 12382, 0xb0101000:): All devices unloaded.
+LOG(2012-05-18T14:53:02.844679, 12382, 0xb0101000:): Device /dev/tty.USA49W41P1.1 loaded from SerialManager and labeled as /dev/tty.USA49W41P1.1
+LOG(2012-05-18T14:53:02.845087, 12382, 0xb0101000:): Device /dev/tty.USA49W41P2.2 loaded from SerialManager and labeled as /dev/tty.USA49W41P2.2
+LOG(2012-05-18T14:53:02.913980, 12382, 0xb0101000:): Device ZeissScope loaded from ZeissCAN and labeled as ZeissScope
+LOG(2012-05-18T14:53:02.914323, 12382, 0xb0101000:): Device ZeissReflectorTurret loaded from ZeissCAN and labeled as ZeissReflectorTurret
+LOG(2012-05-18T14:53:02.914569, 12382, 0xb0101000:): Device ZeissObjectives loaded from ZeissCAN and labeled as ZeissObjectives
+LOG(2012-05-18T14:53:02.914799, 12382, 0xb0101000:): Device ZeissOptovar loaded from ZeissCAN and labeled as ZeissOptovar
+LOG(2012-05-18T14:53:02.915042, 12382, 0xb0101000:): Device ZeissFilterWheel1 loaded from ZeissCAN and labeled as ZeissFilterWheel1
+LOG(2012-05-18T14:53:02.915273, 12382, 0xb0101000:): Device ZeissFilterWheel2 loaded from ZeissCAN and labeled as ZeissFilterWheel2
+LOG(2012-05-18T14:53:02.915499, 12382, 0xb0101000:): Device ZeissHalogenLamp loaded from ZeissCAN and labeled as ZeissHalogenLamp
+LOG(2012-05-18T14:53:02.915520, 12382, 0xb0101000:): Device ZeissHalogenLamp set as default shutter.
+LOG(2012-05-18T14:53:02.915751, 12382, 0xb0101000:): Device ZeissShutter loaded from ZeissCAN and labeled as ZeissShutter
+LOG(2012-05-18T14:53:02.915772, 12382, 0xb0101000:): Device ZeissShutter set as default shutter.
+LOG(2012-05-18T14:53:02.915995, 12382, 0xb0101000:): Device Focus loaded from ZeissCAN and labeled as Focus
+LOG(2012-05-18T14:53:02.939947, 12382, 0xb0101000:): Device SimpleAutofocus loaded from SimpleAutofocus and labeled as SimpleAutofocus
+LOG(2012-05-18T14:53:02.939986, 12382, 0xb0101000:): Device SimpleAutofocus set as default auto-focus.
+LOG(2012-05-18T14:53:02.958848, 12382, 0xb0101000:): Device Hamamatsu_DCAM loaded from Hamamatsu and labeled as Hamamatsu_DCAM
+LOG(2012-05-18T14:53:02.958885, 12382, 0xb0101000:): Device Hamamatsu_DCAM set as default camera.
+LOG(2012-05-18T14:53:02.960774, 12382, 0xb0101000:): Device ITK Corvus Controller loaded from Corvus and labeled as ITK Corvus Controller
+LOG(2012-05-18T14:53:02.961061, 12382, 0xb0101000:): Device XY Stage loaded from Corvus and labeled as XY Stage
+LOG(2012-05-18T14:53:02.961089, 12382, 0xb0101000:): Device XY Stage set as default xyStage.
+LOG(2012-05-18T14:53:02.961799, 12382, 0xb0101000:): Starting initialization sequence for 15 devices...
+LOG(2012-05-18T14:53:02.972279, 12382, 0xb0101000:): Device /dev/tty.USA49W41P1.1 initialized.
+LOG(2012-05-18T14:53:02.981272, 12382, 0xb0101000:): Device /dev/tty.USA49W41P2.2 initialized.
+LOG(2012-05-18T14:53:03.009784, 12382, 0xb0101000:): Device ZeissScope initialized.
+LOG(2012-05-18T14:53:03.493698, 12382, 0xb0101000:): Device ZeissReflectorTurret initialized.
+LOG(2012-05-18T14:53:03.580972, 12382, 0xb0101000:): Device ZeissObjectives initialized.
+LOG(2012-05-18T14:53:03.664972, 12382, 0xb0101000:): Device ZeissOptovar initialized.
+LOG(2012-05-18T14:53:03.773161, 12382, 0xb0101000:): Device ZeissFilterWheel1 initialized.
+LOG(2012-05-18T14:53:03.949120, 12382, 0xb0101000:): Device ZeissFilterWheel2 initialized.
+LOG(2012-05-18T14:53:04.017007, 12382, 0xb0101000:): Device ZeissHalogenLamp initialized.
+LOG(2012-05-18T14:53:04.060343, 12382, 0xb0101000:): Device ZeissShutter initialized.
+LOG(2012-05-18T14:53:04.196999, 12382, 0xb0101000:): Device Focus initialized.
+LOG(2012-05-18T14:53:04.197098, 12382, 0xb0101000:): Device SimpleAutofocus message: SimpleAutofocus::Initialize()
+LOG(2012-05-18T14:53:04.197621, 12382, 0xb0101000:): Device SimpleAutofocus initialized.
+LOG(2012-05-18T14:53:05.933512, 12382, 0xb0101000:): Device Hamamatsu_DCAM message: DCAM Module Version: 3.00.351.4077
+LOG(2012-05-18T14:53:05.933561, 12382, 0xb0101000:): Device Hamamatsu_DCAM message: DCAM API Version: 3.00.351.4077
+LOG(2012-05-18T14:53:06.077325, 12382, 0xb0101000:): Device Hamamatsu_DCAM message: Camera Model: C4742-95-12ERG
+LOG(2012-05-18T14:53:06.077388, 12382, 0xb0101000:): Device Hamamatsu_DCAM message: CameraID: S/N: 720793
+LOG(2012-05-18T14:53:06.077421, 12382, 0xb0101000:): Device Hamamatsu_DCAM message: Camera Version: 1.01.02G
+LOG(2012-05-18T14:53:06.077454, 12382, 0xb0101000:): Device Hamamatsu_DCAM message: Driver version: 3.00.351.4077
+LOG(2012-05-18T14:53:06.077656, 12382, 0xb0101000:): Device Hamamatsu_DCAM message: ScanMode works
+LOG(2012-05-18T14:53:06.298108, 12382, 0xb0101000:): Device Hamamatsu_DCAM initialized.
+LOG(2012-05-18T14:53:06.298246, 12382, 0xb0101000:): Device ITK Corvus Controller message: in init
+LOG(2012-05-18T14:53:06.427836, 12382, 0xb0101000:): Device ITK Corvus Controller initialized.
+LOG(2012-05-18T14:53:06.427936, 12382, 0xb0101000:): Device XY Stage initialized.
+LOG(2012-05-18T14:53:06.428657, 12382, 0xb0101000:): Camera device set to Hamamatsu_DCAM
+LOG(2012-05-18T14:53:06.428866, 12382, 0xb0101000:): Focus device set to Focus
+LOG(2012-05-18T14:53:06.428967, 12382, 0xb0101000:): Auto shutter ON.
+LOG(2012-05-18T14:53:07.512381, 12382, 0xb0101000:): System state cache updated.
+LOG(2012-05-18T14:53:32.409778, 12382, 0xb13b2000:): Device XY Stage message: busy? status  D0..7 01000000
+LOG(2012-05-18T15:34:03.071834, 12427, 0xb0101000:): -------->>
+LOG(2012-05-18T15:34:03.072228, 12427, 0xb0101000:): Core session started on 2012-05-18T15:34:03.072228 by pswadmin on spain.biosci.ki.se
+LOG(2012-05-18T15:34:03.072306, 12427, 0xb0101000:): Debug logging disabled
+LOG(2012-05-18T15:34:03.074708, 12427, 0xb0101000:): Debug logging disabled
+LOG(2012-05-18T15:34:03.075969, 12427, 0xb0101000:): All devices unloaded.
+LOG(2012-05-18T15:34:03.136668, 12427, 0xb0101000:): Device /dev/tty.USA49W41P1.1 loaded from SerialManager and labeled as /dev/tty.USA49W41P1.1
+LOG(2012-05-18T15:34:03.137070, 12427, 0xb0101000:): Device /dev/tty.USA49W41P2.2 loaded from SerialManager and labeled as /dev/tty.USA49W41P2.2
+LOG(2012-05-18T15:34:03.198890, 12427, 0xb0101000:): Device ZeissScope loaded from ZeissCAN and labeled as ZeissScope
+LOG(2012-05-18T15:34:03.199259, 12427, 0xb0101000:): Device ZeissReflectorTurret loaded from ZeissCAN and labeled as ZeissReflectorTurret
+LOG(2012-05-18T15:34:03.199512, 12427, 0xb0101000:): Device ZeissObjectives loaded from ZeissCAN and labeled as ZeissObjectives
+LOG(2012-05-18T15:34:03.199747, 12427, 0xb0101000:): Device ZeissOptovar loaded from ZeissCAN and labeled as ZeissOptovar
+LOG(2012-05-18T15:34:03.199993, 12427, 0xb0101000:): Device ZeissFilterWheel1 loaded from ZeissCAN and labeled as ZeissFilterWheel1
+LOG(2012-05-18T15:34:03.200231, 12427, 0xb0101000:): Device ZeissFilterWheel2 loaded from ZeissCAN and labeled as ZeissFilterWheel2
+LOG(2012-05-18T15:34:03.200466, 12427, 0xb0101000:): Device ZeissHalogenLamp loaded from ZeissCAN and labeled as ZeissHalogenLamp
+LOG(2012-05-18T15:34:03.200488, 12427, 0xb0101000:): Device ZeissHalogenLamp set as default shutter.
+LOG(2012-05-18T15:34:03.200722, 12427, 0xb0101000:): Device ZeissShutter loaded from ZeissCAN and labeled as ZeissShutter
+LOG(2012-05-18T15:34:03.200743, 12427, 0xb0101000:): Device ZeissShutter set as default shutter.
+LOG(2012-05-18T15:34:03.200969, 12427, 0xb0101000:): Device Focus loaded from ZeissCAN and labeled as Focus
+LOG(2012-05-18T15:34:03.224984, 12427, 0xb0101000:): Device SimpleAutofocus loaded from SimpleAutofocus and labeled as SimpleAutofocus
+LOG(2012-05-18T15:34:03.225023, 12427, 0xb0101000:): Device SimpleAutofocus set as default auto-focus.
+LOG(2012-05-18T15:34:03.243892, 12427, 0xb0101000:): Device Hamamatsu_DCAM loaded from Hamamatsu and labeled as Hamamatsu_DCAM
+LOG(2012-05-18T15:34:03.243927, 12427, 0xb0101000:): Device Hamamatsu_DCAM set as default camera.
+LOG(2012-05-18T15:34:03.245759, 12427, 0xb0101000:): Device ITK Corvus Controller loaded from Corvus and labeled as ITK Corvus Controller
+LOG(2012-05-18T15:34:03.246013, 12427, 0xb0101000:): Device XY Stage loaded from Corvus and labeled as XY Stage
+LOG(2012-05-18T15:34:03.246034, 12427, 0xb0101000:): Device XY Stage set as default xyStage.
+LOG(2012-05-18T15:34:03.246726, 12427, 0xb0101000:): Starting initialization sequence for 15 devices...
+LOG(2012-05-18T15:34:03.257350, 12427, 0xb0101000:): Device /dev/tty.USA49W41P1.1 initialized.
+LOG(2012-05-18T15:34:03.266141, 12427, 0xb0101000:): Device /dev/tty.USA49W41P2.2 initialized.
+LOG(2012-05-18T15:34:03.297669, 12427, 0xb0101000:): Device ZeissScope initialized.
+LOG(2012-05-18T15:34:03.781950, 12427, 0xb0101000:): Device ZeissReflectorTurret initialized.
+LOG(2012-05-18T15:34:03.866248, 12427, 0xb0101000:): Device ZeissObjectives initialized.
+LOG(2012-05-18T15:34:03.950258, 12427, 0xb0101000:): Device ZeissOptovar initialized.
+LOG(2012-05-18T15:34:04.059134, 12427, 0xb0101000:): Device ZeissFilterWheel1 initialized.
+LOG(2012-05-18T15:34:04.234169, 12427, 0xb0101000:): Device ZeissFilterWheel2 initialized.
+LOG(2012-05-18T15:34:04.301149, 12427, 0xb0101000:): Device ZeissHalogenLamp initialized.
+LOG(2012-05-18T15:34:04.344140, 12427, 0xb0101000:): Device ZeissShutter initialized.
+LOG(2012-05-18T15:34:04.481557, 12427, 0xb0101000:): Device Focus initialized.
+LOG(2012-05-18T15:34:04.481675, 12427, 0xb0101000:): Device SimpleAutofocus message: SimpleAutofocus::Initialize()
+LOG(2012-05-18T15:34:04.482298, 12427, 0xb0101000:): Device SimpleAutofocus initialized.
+LOG(2012-05-18T15:34:06.119090, 12427, 0xb0101000:): Device Hamamatsu_DCAM message: DCAM Module Version: 3.00.351.4077
+LOG(2012-05-18T15:34:06.119140, 12427, 0xb0101000:): Device Hamamatsu_DCAM message: DCAM API Version: 3.00.351.4077
+LOG(2012-05-18T15:34:06.261920, 12427, 0xb0101000:): Device Hamamatsu_DCAM message: Camera Model: C4742-95-12ERG
+LOG(2012-05-18T15:34:06.261987, 12427, 0xb0101000:): Device Hamamatsu_DCAM message: CameraID: S/N: 720793
+LOG(2012-05-18T15:34:06.262018, 12427, 0xb0101000:): Device Hamamatsu_DCAM message: Camera Version: 1.01.02G
+LOG(2012-05-18T15:34:06.262130, 12427, 0xb0101000:): Device Hamamatsu_DCAM message: Driver version: 3.00.351.4077
+LOG(2012-05-18T15:34:06.262257, 12427, 0xb0101000:): Device Hamamatsu_DCAM message: ScanMode works
+LOG(2012-05-18T15:34:06.469573, 12427, 0xb0101000:): Device Hamamatsu_DCAM initialized.
+LOG(2012-05-18T15:34:06.469708, 12427, 0xb0101000:): Device ITK Corvus Controller message: in init
+LOG(2012-05-18T15:34:06.599653, 12427, 0xb0101000:): Device ITK Corvus Controller initialized.
+LOG(2012-05-18T15:34:06.599685, 12427, 0xb0101000:): Device XY Stage initialized.
+LOG(2012-05-18T15:34:06.600382, 12427, 0xb0101000:): Camera device set to Hamamatsu_DCAM
+LOG(2012-05-18T15:34:06.600590, 12427, 0xb0101000:): Focus device set to Focus
+LOG(2012-05-18T15:34:06.600689, 12427, 0xb0101000:): Auto shutter ON.
+LOG(2012-05-18T15:34:07.686872, 12427, 0xb0101000:): System state cache updated.
+LOG(2012-05-18T15:34:17.218917, 12427, 0xb13b2000:): Device XY Stage message: busy? status  D0..7 01000000
+LOG(2012-05-18T15:34:52.609967, 12427, 0xb13b2000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-18T17:13:23.890837, 12617, 0xb0101000:): -------->>
+LOG(2012-05-18T17:13:23.891389, 12617, 0xb0101000:): Core session started on 2012-05-18T17:13:23.891389 by pswadmin on spain.biosci.ki.se
+LOG(2012-05-18T17:13:23.891531, 12617, 0xb0101000:): Debug logging disabled
+LOG(2012-05-18T17:13:23.894101, 12617, 0xb0101000:): Debug logging disabled
+LOG(2012-05-18T17:13:23.895848, 12617, 0xb0101000:): All devices unloaded.
+LOG(2012-05-18T17:13:23.961498, 12617, 0xb0101000:): Device /dev/tty.USA49W41P1.1 loaded from SerialManager and labeled as /dev/tty.USA49W41P1.1
+LOG(2012-05-18T17:13:23.961889, 12617, 0xb0101000:): Device /dev/tty.USA49W41P2.2 loaded from SerialManager and labeled as /dev/tty.USA49W41P2.2
+LOG(2012-05-18T17:13:24.058206, 12617, 0xb0101000:): Device ZeissScope loaded from ZeissCAN and labeled as ZeissScope
+LOG(2012-05-18T17:13:24.058548, 12617, 0xb0101000:): Device ZeissReflectorTurret loaded from ZeissCAN and labeled as ZeissReflectorTurret
+LOG(2012-05-18T17:13:24.058794, 12617, 0xb0101000:): Device ZeissObjectives loaded from ZeissCAN and labeled as ZeissObjectives
+LOG(2012-05-18T17:13:24.059024, 12617, 0xb0101000:): Device ZeissOptovar loaded from ZeissCAN and labeled as ZeissOptovar
+LOG(2012-05-18T17:13:24.059266, 12617, 0xb0101000:): Device ZeissFilterWheel1 loaded from ZeissCAN and labeled as ZeissFilterWheel1
+LOG(2012-05-18T17:13:24.059503, 12617, 0xb0101000:): Device ZeissFilterWheel2 loaded from ZeissCAN and labeled as ZeissFilterWheel2
+LOG(2012-05-18T17:13:24.059732, 12617, 0xb0101000:): Device ZeissHalogenLamp loaded from ZeissCAN and labeled as ZeissHalogenLamp
+LOG(2012-05-18T17:13:24.059754, 12617, 0xb0101000:): Device ZeissHalogenLamp set as default shutter.
+LOG(2012-05-18T17:13:24.060006, 12617, 0xb0101000:): Device ZeissShutter loaded from ZeissCAN and labeled as ZeissShutter
+LOG(2012-05-18T17:13:24.060028, 12617, 0xb0101000:): Device ZeissShutter set as default shutter.
+LOG(2012-05-18T17:13:24.060254, 12617, 0xb0101000:): Device Focus loaded from ZeissCAN and labeled as Focus
+LOG(2012-05-18T17:13:24.084075, 12617, 0xb0101000:): Device SimpleAutofocus loaded from SimpleAutofocus and labeled as SimpleAutofocus
+LOG(2012-05-18T17:13:24.084111, 12617, 0xb0101000:): Device SimpleAutofocus set as default auto-focus.
+LOG(2012-05-18T17:13:24.107309, 12617, 0xb0101000:): Device Hamamatsu_DCAM loaded from Hamamatsu and labeled as Hamamatsu_DCAM
+LOG(2012-05-18T17:13:24.107362, 12617, 0xb0101000:): Device Hamamatsu_DCAM set as default camera.
+LOG(2012-05-18T17:13:24.109833, 12617, 0xb0101000:): Device ITK Corvus Controller loaded from Corvus and labeled as ITK Corvus Controller
+LOG(2012-05-18T17:13:24.110282, 12617, 0xb0101000:): Device XY Stage loaded from Corvus and labeled as XY Stage
+LOG(2012-05-18T17:13:24.110304, 12617, 0xb0101000:): Device XY Stage set as default xyStage.
+LOG(2012-05-18T17:13:24.111319, 12617, 0xb0101000:): Starting initialization sequence for 15 devices...
+LOG(2012-05-18T17:13:24.135977, 12617, 0xb0101000:): Device /dev/tty.USA49W41P1.1 initialized.
+LOG(2012-05-18T17:13:24.145225, 12617, 0xb0101000:): Device /dev/tty.USA49W41P2.2 initialized.
+LOG(2012-05-18T17:13:24.173959, 12617, 0xb0101000:): Device ZeissScope initialized.
+LOG(2012-05-18T17:13:24.660394, 12617, 0xb0101000:): Device ZeissReflectorTurret initialized.
+LOG(2012-05-18T17:13:24.746898, 12617, 0xb0101000:): Device ZeissObjectives initialized.
+LOG(2012-05-18T17:13:24.834539, 12617, 0xb0101000:): Device ZeissOptovar initialized.
+LOG(2012-05-18T17:13:26.860358, 12617, 0xb0101000:): Device /dev/tty.USA49W41P2.2 message: TERM_TIMEOUT error occured!
+LOG(2012-05-18T17:13:26.860759, 12617, 0xb0101000:): Error occured. Device /dev/tty.USA49W41P2.2. Error in device /dev/tty.USA49W41P2.2: Error code 107 (6b hex). 
+
+LOG(2012-05-18T17:13:26.860878, 12617, 0xb0101000:): Error occured. Device ZeissFilterWheel1. Error in device ZeissFilterWheel1: Serial command failed.  Is the device connected to the serial port?. 
+, file ../MMCore/MMCore.cpp, line 862
+LOG(2012-05-18T17:13:26.876646, 12617, 0xb0101000:): Auto shutter ON.
+LOG(2012-05-18T17:14:53.492317, 12620, 0xb0101000:): -------->>
+LOG(2012-05-18T17:14:53.492703, 12620, 0xb0101000:): Core session started on 2012-05-18T17:14:53.492703 by pswadmin on spain.biosci.ki.se
+LOG(2012-05-18T17:14:53.492784, 12620, 0xb0101000:): Debug logging disabled
+LOG(2012-05-18T17:14:53.495167, 12620, 0xb0101000:): Debug logging disabled
+LOG(2012-05-18T17:14:53.496544, 12620, 0xb0101000:): All devices unloaded.
+LOG(2012-05-18T17:14:53.583807, 12620, 0xb0101000:): Device /dev/tty.USA49W41P1.1 loaded from SerialManager and labeled as /dev/tty.USA49W41P1.1
+LOG(2012-05-18T17:14:53.584211, 12620, 0xb0101000:): Device /dev/tty.USA49W41P2.2 loaded from SerialManager and labeled as /dev/tty.USA49W41P2.2
+LOG(2012-05-18T17:14:53.670649, 12620, 0xb0101000:): Device ZeissScope loaded from ZeissCAN and labeled as ZeissScope
+LOG(2012-05-18T17:14:53.671029, 12620, 0xb0101000:): Device ZeissReflectorTurret loaded from ZeissCAN and labeled as ZeissReflectorTurret
+LOG(2012-05-18T17:14:53.671285, 12620, 0xb0101000:): Device ZeissObjectives loaded from ZeissCAN and labeled as ZeissObjectives
+LOG(2012-05-18T17:14:53.671529, 12620, 0xb0101000:): Device ZeissOptovar loaded from ZeissCAN and labeled as ZeissOptovar
+LOG(2012-05-18T17:14:53.671974, 12620, 0xb0101000:): Device ZeissFilterWheel1 loaded from ZeissCAN and labeled as ZeissFilterWheel1
+LOG(2012-05-18T17:14:53.672210, 12620, 0xb0101000:): Device ZeissFilterWheel2 loaded from ZeissCAN and labeled as ZeissFilterWheel2
+LOG(2012-05-18T17:14:53.672437, 12620, 0xb0101000:): Device ZeissHalogenLamp loaded from ZeissCAN and labeled as ZeissHalogenLamp
+LOG(2012-05-18T17:14:53.672458, 12620, 0xb0101000:): Device ZeissHalogenLamp set as default shutter.
+LOG(2012-05-18T17:14:53.672814, 12620, 0xb0101000:): Device ZeissShutter loaded from ZeissCAN and labeled as ZeissShutter
+LOG(2012-05-18T17:14:53.672840, 12620, 0xb0101000:): Device ZeissShutter set as default shutter.
+LOG(2012-05-18T17:14:53.673099, 12620, 0xb0101000:): Device Focus loaded from ZeissCAN and labeled as Focus
+LOG(2012-05-18T17:14:53.697344, 12620, 0xb0101000:): Device SimpleAutofocus loaded from SimpleAutofocus and labeled as SimpleAutofocus
+LOG(2012-05-18T17:14:53.697387, 12620, 0xb0101000:): Device SimpleAutofocus set as default auto-focus.
+LOG(2012-05-18T17:14:53.722702, 12620, 0xb0101000:): Device Hamamatsu_DCAM loaded from Hamamatsu and labeled as Hamamatsu_DCAM
+LOG(2012-05-18T17:14:53.722767, 12620, 0xb0101000:): Device Hamamatsu_DCAM set as default camera.
+LOG(2012-05-18T17:14:53.732418, 12620, 0xb0101000:): Device ITK Corvus Controller loaded from Corvus and labeled as ITK Corvus Controller
+LOG(2012-05-18T17:14:53.732829, 12620, 0xb0101000:): Device XY Stage loaded from Corvus and labeled as XY Stage
+LOG(2012-05-18T17:14:53.732851, 12620, 0xb0101000:): Device XY Stage set as default xyStage.
+LOG(2012-05-18T17:14:53.734368, 12620, 0xb0101000:): Starting initialization sequence for 15 devices...
+LOG(2012-05-18T17:14:53.745778, 12620, 0xb0101000:): Device /dev/tty.USA49W41P1.1 initialized.
+LOG(2012-05-18T17:14:53.753808, 12620, 0xb0101000:): Device /dev/tty.USA49W41P2.2 initialized.
+LOG(2012-05-18T17:14:53.782502, 12620, 0xb0101000:): Device ZeissScope initialized.
+LOG(2012-05-18T17:14:54.272828, 12620, 0xb0101000:): Device ZeissReflectorTurret initialized.
+LOG(2012-05-18T17:14:54.359033, 12620, 0xb0101000:): Device ZeissObjectives initialized.
+LOG(2012-05-18T17:14:54.444284, 12620, 0xb0101000:): Device ZeissOptovar initialized.
+LOG(2012-05-18T17:14:54.570116, 12620, 0xb0101000:): Device ZeissFilterWheel1 initialized.
+LOG(2012-05-18T17:14:54.745191, 12620, 0xb0101000:): Device ZeissFilterWheel2 initialized.
+LOG(2012-05-18T17:14:54.815623, 12620, 0xb0101000:): Device ZeissHalogenLamp initialized.
+LOG(2012-05-18T17:14:54.858925, 12620, 0xb0101000:): Device ZeissShutter initialized.
+LOG(2012-05-18T17:14:56.859584, 12620, 0xb0101000:): Device /dev/tty.USA49W41P2.2 message: TERM_TIMEOUT error occured!
+LOG(2012-05-18T17:14:56.859862, 12620, 0xb0101000:): Error occured. Device /dev/tty.USA49W41P2.2. Error in device /dev/tty.USA49W41P2.2: Error code 107 (6b hex). 
+
+LOG(2012-05-18T17:14:56.859948, 12620, 0xb0101000:): Error occured. Device Focus. Error in device Focus: No focus drive found in this microscopes. 
+, file ../MMCore/MMCore.cpp, line 862
+LOG(2012-05-18T17:14:56.860358, 12620, 0xb0101000:): Auto shutter ON.
+LOG(2012-05-18T17:15:54.793806, 12623, 0xb0101000:): -------->>
+LOG(2012-05-18T17:15:54.794250, 12623, 0xb0101000:): Core session started on 2012-05-18T17:15:54.794250 by pswadmin on spain.biosci.ki.se
+LOG(2012-05-18T17:15:54.794329, 12623, 0xb0101000:): Debug logging disabled
+LOG(2012-05-18T17:15:54.797446, 12623, 0xb0101000:): Debug logging disabled
+LOG(2012-05-18T17:15:54.799076, 12623, 0xb0101000:): All devices unloaded.
+LOG(2012-05-18T17:15:54.888106, 12623, 0xb0101000:): Device /dev/tty.USA49W41P1.1 loaded from SerialManager and labeled as /dev/tty.USA49W41P1.1
+LOG(2012-05-18T17:15:54.888521, 12623, 0xb0101000:): Device /dev/tty.USA49W41P2.2 loaded from SerialManager and labeled as /dev/tty.USA49W41P2.2
+LOG(2012-05-18T17:15:54.950970, 12623, 0xb0101000:): Device ZeissScope loaded from ZeissCAN and labeled as ZeissScope
+LOG(2012-05-18T17:15:54.951384, 12623, 0xb0101000:): Device ZeissReflectorTurret loaded from ZeissCAN and labeled as ZeissReflectorTurret
+LOG(2012-05-18T17:15:54.951670, 12623, 0xb0101000:): Device ZeissObjectives loaded from ZeissCAN and labeled as ZeissObjectives
+LOG(2012-05-18T17:15:54.951913, 12623, 0xb0101000:): Device ZeissOptovar loaded from ZeissCAN and labeled as ZeissOptovar
+LOG(2012-05-18T17:15:54.952180, 12623, 0xb0101000:): Device ZeissFilterWheel1 loaded from ZeissCAN and labeled as ZeissFilterWheel1
+LOG(2012-05-18T17:15:54.952425, 12623, 0xb0101000:): Device ZeissFilterWheel2 loaded from ZeissCAN and labeled as ZeissFilterWheel2
+LOG(2012-05-18T17:15:54.952664, 12623, 0xb0101000:): Device ZeissHalogenLamp loaded from ZeissCAN and labeled as ZeissHalogenLamp
+LOG(2012-05-18T17:15:54.952686, 12623, 0xb0101000:): Device ZeissHalogenLamp set as default shutter.
+LOG(2012-05-18T17:15:54.952929, 12623, 0xb0101000:): Device ZeissShutter loaded from ZeissCAN and labeled as ZeissShutter
+LOG(2012-05-18T17:15:54.952950, 12623, 0xb0101000:): Device ZeissShutter set as default shutter.
+LOG(2012-05-18T17:15:54.953180, 12623, 0xb0101000:): Device Focus loaded from ZeissCAN and labeled as Focus
+LOG(2012-05-18T17:15:54.988440, 12623, 0xb0101000:): Device SimpleAutofocus loaded from SimpleAutofocus and labeled as SimpleAutofocus
+LOG(2012-05-18T17:15:54.988486, 12623, 0xb0101000:): Device SimpleAutofocus set as default auto-focus.
+LOG(2012-05-18T17:15:55.023385, 12623, 0xb0101000:): Device Hamamatsu_DCAM loaded from Hamamatsu and labeled as Hamamatsu_DCAM
+LOG(2012-05-18T17:15:55.023429, 12623, 0xb0101000:): Device Hamamatsu_DCAM set as default camera.
+LOG(2012-05-18T17:15:55.025428, 12623, 0xb0101000:): Device ITK Corvus Controller loaded from Corvus and labeled as ITK Corvus Controller
+LOG(2012-05-18T17:15:55.025725, 12623, 0xb0101000:): Device XY Stage loaded from Corvus and labeled as XY Stage
+LOG(2012-05-18T17:15:55.025746, 12623, 0xb0101000:): Device XY Stage set as default xyStage.
+LOG(2012-05-18T17:15:55.026461, 12623, 0xb0101000:): Starting initialization sequence for 15 devices...
+LOG(2012-05-18T17:15:55.043280, 12623, 0xb0101000:): Device /dev/tty.USA49W41P1.1 initialized.
+LOG(2012-05-18T17:15:55.051953, 12623, 0xb0101000:): Device /dev/tty.USA49W41P2.2 initialized.
+LOG(2012-05-18T17:15:55.083556, 12623, 0xb0101000:): Device ZeissScope initialized.
+LOG(2012-05-18T17:15:55.572205, 12623, 0xb0101000:): Device ZeissReflectorTurret initialized.
+LOG(2012-05-18T17:15:55.658419, 12623, 0xb0101000:): Device ZeissObjectives initialized.
+LOG(2012-05-18T17:15:55.742849, 12623, 0xb0101000:): Device ZeissOptovar initialized.
+LOG(2012-05-18T17:15:55.896381, 12623, 0xb0101000:): Device ZeissFilterWheel1 initialized.
+LOG(2012-05-18T17:15:56.080505, 12623, 0xb0101000:): Device ZeissFilterWheel2 initialized.
+LOG(2012-05-18T17:15:56.155020, 12623, 0xb0101000:): Device ZeissHalogenLamp initialized.
+LOG(2012-05-18T17:15:56.197318, 12623, 0xb0101000:): Device ZeissShutter initialized.
+LOG(2012-05-18T17:15:56.338764, 12623, 0xb0101000:): Device Focus initialized.
+LOG(2012-05-18T17:15:56.339329, 12623, 0xb0101000:): Device SimpleAutofocus message: SimpleAutofocus::Initialize()
+LOG(2012-05-18T17:15:56.340058, 12623, 0xb0101000:): Device SimpleAutofocus initialized.
+LOG(2012-05-18T17:15:58.493255, 12623, 0xb0101000:): Device Hamamatsu_DCAM message: DCAM Module Version: 3.00.351.4077
+LOG(2012-05-18T17:15:58.493307, 12623, 0xb0101000:): Device Hamamatsu_DCAM message: DCAM API Version: 3.00.351.4077
+LOG(2012-05-18T17:15:58.744108, 12623, 0xb0101000:): Device Hamamatsu_DCAM message: Camera Model: C4742-95-12ERG
+LOG(2012-05-18T17:15:58.744185, 12623, 0xb0101000:): Device Hamamatsu_DCAM message: CameraID: S/N: 720793
+LOG(2012-05-18T17:15:58.744236, 12623, 0xb0101000:): Device Hamamatsu_DCAM message: Camera Version: 1.01.02G
+LOG(2012-05-18T17:15:58.744268, 12623, 0xb0101000:): Device Hamamatsu_DCAM message: Driver version: 3.00.351.4077
+LOG(2012-05-18T17:15:58.744467, 12623, 0xb0101000:): Device Hamamatsu_DCAM message: ScanMode works
+LOG(2012-05-18T17:15:58.994702, 12623, 0xb0101000:): Device Hamamatsu_DCAM initialized.
+LOG(2012-05-18T17:15:58.994856, 12623, 0xb0101000:): Device ITK Corvus Controller message: in init
+LOG(2012-05-18T17:15:59.124741, 12623, 0xb0101000:): Device ITK Corvus Controller initialized.
+LOG(2012-05-18T17:15:59.124780, 12623, 0xb0101000:): Device XY Stage initialized.
+LOG(2012-05-18T17:15:59.126103, 12623, 0xb0101000:): Camera device set to Hamamatsu_DCAM
+LOG(2012-05-18T17:15:59.126328, 12623, 0xb0101000:): Focus device set to Focus
+LOG(2012-05-18T17:15:59.126429, 12623, 0xb0101000:): Auto shutter ON.
+LOG(2012-05-18T17:16:00.227031, 12623, 0xb0101000:): System state cache updated.

@@ -1,0 +1,85 @@
+LOG(2012-05-27T14:50:35.527206, 5383, 0xb0101000:): -------->>
+LOG(2012-05-27T14:50:35.527608, 5383, 0xb0101000:): Core session started on 2012-05-27T14:50:35.527608 by pswadmin on spain.biosci.ki.se
+LOG(2012-05-27T14:50:35.527686, 5383, 0xb0101000:): Debug logging disabled
+LOG(2012-05-27T14:50:35.530007, 5383, 0xb0101000:): Debug logging disabled
+LOG(2012-05-27T14:50:35.556940, 5383, 0xb0101000:): All devices unloaded.
+LOG(2012-05-27T14:50:35.794938, 5383, 0xb0101000:): Device /dev/tty.USA49W41P1.1 loaded from SerialManager and labeled as /dev/tty.USA49W41P1.1
+LOG(2012-05-27T14:50:35.795332, 5383, 0xb0101000:): Device /dev/tty.USA49W41P2.2 loaded from SerialManager and labeled as /dev/tty.USA49W41P2.2
+LOG(2012-05-27T14:50:35.912523, 5383, 0xb0101000:): Device ZeissScope loaded from ZeissCAN and labeled as ZeissScope
+LOG(2012-05-27T14:50:35.913734, 5383, 0xb0101000:): Device ZeissReflectorTurret loaded from ZeissCAN and labeled as ZeissReflectorTurret
+LOG(2012-05-27T14:50:35.914038, 5383, 0xb0101000:): Device ZeissObjectives loaded from ZeissCAN and labeled as ZeissObjectives
+LOG(2012-05-27T14:50:35.914267, 5383, 0xb0101000:): Device ZeissOptovar loaded from ZeissCAN and labeled as ZeissOptovar
+LOG(2012-05-27T14:50:35.914506, 5383, 0xb0101000:): Device ZeissFilterWheel1 loaded from ZeissCAN and labeled as ZeissFilterWheel1
+LOG(2012-05-27T14:50:35.914740, 5383, 0xb0101000:): Device ZeissFilterWheel2 loaded from ZeissCAN and labeled as ZeissFilterWheel2
+LOG(2012-05-27T14:50:35.914965, 5383, 0xb0101000:): Device ZeissHalogenLamp loaded from ZeissCAN and labeled as ZeissHalogenLamp
+LOG(2012-05-27T14:50:35.914986, 5383, 0xb0101000:): Device ZeissHalogenLamp set as default shutter.
+LOG(2012-05-27T14:50:35.915214, 5383, 0xb0101000:): Device ZeissShutter loaded from ZeissCAN and labeled as ZeissShutter
+LOG(2012-05-27T14:50:35.915234, 5383, 0xb0101000:): Device ZeissShutter set as default shutter.
+LOG(2012-05-27T14:50:35.915455, 5383, 0xb0101000:): Device Focus loaded from ZeissCAN and labeled as Focus
+LOG(2012-05-27T14:50:35.976720, 5383, 0xb0101000:): Device SimpleAutofocus loaded from SimpleAutofocus and labeled as SimpleAutofocus
+LOG(2012-05-27T14:50:35.976762, 5383, 0xb0101000:): Device SimpleAutofocus set as default auto-focus.
+LOG(2012-05-27T14:50:36.095129, 5383, 0xb0101000:): Device Hamamatsu_DCAM loaded from Hamamatsu and labeled as Hamamatsu_DCAM
+LOG(2012-05-27T14:50:36.095172, 5383, 0xb0101000:): Device Hamamatsu_DCAM set as default camera.
+LOG(2012-05-27T14:50:36.111284, 5383, 0xb0101000:): Device ITK Corvus Controller loaded from Corvus and labeled as ITK Corvus Controller
+LOG(2012-05-27T14:50:36.111635, 5383, 0xb0101000:): Device XY Stage loaded from Corvus and labeled as XY Stage
+LOG(2012-05-27T14:50:36.111659, 5383, 0xb0101000:): Device XY Stage set as default xyStage.
+LOG(2012-05-27T14:50:36.112411, 5383, 0xb0101000:): Starting initialization sequence for 15 devices...
+LOG(2012-05-27T14:50:36.134452, 5383, 0xb0101000:): Device /dev/tty.USA49W41P1.1 initialized.
+LOG(2012-05-27T14:50:36.143461, 5383, 0xb0101000:): Device /dev/tty.USA49W41P2.2 initialized.
+LOG(2012-05-27T14:50:36.180210, 5383, 0xb0101000:): Device ZeissScope initialized.
+LOG(2012-05-27T14:50:36.664680, 5383, 0xb0101000:): Device ZeissReflectorTurret initialized.
+LOG(2012-05-27T14:50:36.749500, 5383, 0xb0101000:): Device ZeissObjectives initialized.
+LOG(2012-05-27T14:50:36.836149, 5383, 0xb0101000:): Device ZeissOptovar initialized.
+LOG(2012-05-27T14:50:36.953859, 5383, 0xb0101000:): Device ZeissFilterWheel1 initialized.
+LOG(2012-05-27T14:50:37.134765, 5383, 0xb0101000:): Device ZeissFilterWheel2 initialized.
+LOG(2012-05-27T14:50:37.202643, 5383, 0xb0101000:): Device ZeissHalogenLamp initialized.
+LOG(2012-05-27T14:50:37.246068, 5383, 0xb0101000:): Device ZeissShutter initialized.
+LOG(2012-05-27T14:50:37.385268, 5383, 0xb0101000:): Device Focus initialized.
+LOG(2012-05-27T14:50:37.385325, 5383, 0xb0101000:): Device SimpleAutofocus message: SimpleAutofocus::Initialize()
+LOG(2012-05-27T14:50:37.386019, 5383, 0xb0101000:): Device SimpleAutofocus initialized.
+LOG(2012-05-27T14:50:39.868154, 5383, 0xb0101000:): Device Hamamatsu_DCAM message: DCAM Module Version: 3.00.351.4077
+LOG(2012-05-27T14:50:39.868205, 5383, 0xb0101000:): Device Hamamatsu_DCAM message: DCAM API Version: 3.00.351.4077
+LOG(2012-05-27T14:50:40.010821, 5383, 0xb0101000:): Device Hamamatsu_DCAM message: Camera Model: C4742-95-12ERG
+LOG(2012-05-27T14:50:40.010889, 5383, 0xb0101000:): Device Hamamatsu_DCAM message: CameraID: S/N: 720793
+LOG(2012-05-27T14:50:40.010920, 5383, 0xb0101000:): Device Hamamatsu_DCAM message: Camera Version: 1.01.02G
+LOG(2012-05-27T14:50:40.010952, 5383, 0xb0101000:): Device Hamamatsu_DCAM message: Driver version: 3.00.351.4077
+LOG(2012-05-27T14:50:40.011139, 5383, 0xb0101000:): Device Hamamatsu_DCAM message: ScanMode works
+LOG(2012-05-27T14:50:40.242085, 5383, 0xb0101000:): Device Hamamatsu_DCAM initialized.
+LOG(2012-05-27T14:50:40.242199, 5383, 0xb0101000:): Device ITK Corvus Controller message: in init
+LOG(2012-05-27T14:50:40.373287, 5383, 0xb0101000:): Device ITK Corvus Controller initialized.
+LOG(2012-05-27T14:50:40.373334, 5383, 0xb0101000:): Device XY Stage initialized.
+LOG(2012-05-27T14:50:40.392392, 5383, 0xb0101000:): Camera device set to Hamamatsu_DCAM
+LOG(2012-05-27T14:50:40.392717, 5383, 0xb0101000:): Focus device set to Focus
+LOG(2012-05-27T14:50:40.392823, 5383, 0xb0101000:): Auto shutter ON.
+LOG(2012-05-27T14:50:41.478258, 5383, 0xb0101000:): System state cache updated.
+LOG(2012-05-27T14:54:41.047780, 5383, 0xb96c0000:): Device XY Stage message: busy? status  D0..7 01000000
+LOG(2012-05-27T14:54:41.716741, 5383, 0xb96c0000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:54:48.033791, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:54:48.495506, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:54:48.970074, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:54:53.378583, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:54:53.732631, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:54:54.196878, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:54:54.616619, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:12.740711, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:13.408810, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:13.884755, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:14.279136, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:16.803253, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:17.442676, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:17.891148, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:18.285174, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:21.316819, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:21.978553, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:22.437748, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:22.858803, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:36.792579, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:37.967722, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:39.171144, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:39.648773, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:40.963982, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:41.449935, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:43.166288, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:43.625858, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:45.060985, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000
+LOG(2012-05-27T14:55:45.543956, 5383, 0xb963e000:): Device XY Stage message: busy? status  D0..7 00000000

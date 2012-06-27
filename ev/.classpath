@@ -134,5 +134,17 @@
 	<classpathentry kind="lib" path="libs/ij.jar"/>
 	<classpathentry kind="lib" path="libs/umanager_inc/bin_mac/MMCoreJ.jar"/>
 	<classpathentry kind="lib" path="libs/umanager_inc/bin_mac/MMJ_.jar"/>
+	<classpathentry kind="lib" path="libs/mines/arpack-java.jar"/>
+	<classpathentry kind="lib" path="libs/mines/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="libs/mines/jogl.jar"/>
+	<classpathentry kind="lib" path="libs/mines/junit.jar"/>
+	<classpathentry kind="lib" path="libs/mines/netlib-java.jar"/>
+	<classpathentry kind="lib" path="libs/imglib_inc/imglib2-2.0.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="libs/imglib_inc/imglib2-algorithms-2.0.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="libs/imglib_inc/imglib2-algorithms-gpl-2.0.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="libs/imglib_inc/imglib2-io-2.0.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="libs/imglib_inc/imglib2-ops-2.0.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="libs/imglib_inc/imglib2-realtransform-2.0.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="libs/edu_mines_jtk.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>

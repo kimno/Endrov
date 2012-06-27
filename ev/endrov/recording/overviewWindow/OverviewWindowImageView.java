@@ -316,8 +316,6 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 		}
 	public void mousePressed(MouseEvent e)
 		{
-		ResolutionManager.Resolution res=ResolutionManager.getCurrentResolutionNotNull(getCameraPath());
-
 		lastMousePosition=new Vector2i(e.getX(),e.getY());
 		if(currentTool!=null)
 			currentTool.mousePressed(e);
