@@ -244,6 +244,7 @@ public class FrivolousDeviceProvider extends EvDeviceProvider implements EvDevic
 
 			int offsetX=-(int)(stagePos[0]/getRes());
 			int offsetY=-(int)(stagePos[1]/getRes());
+
 			
 			//Bleach everything visible at the moment
 			for(FrivolousDiffusion d:model.cell.diffusers)
@@ -410,6 +411,16 @@ public class FrivolousDeviceProvider extends EvDeviceProvider implements EvDevic
 			//this.height=height;
 			}
 
+		public long getCamWidth() {
+			
+			return (long) width;
+		}
+
+		public long getCamHeight() {
+			
+			return (long) height;
+		}
+
 		}
 
 	
@@ -423,17 +434,17 @@ public class FrivolousDeviceProvider extends EvDeviceProvider implements EvDevic
 
 		public String[] getAxisName()
 			{
-			return new String[]{ "x", "y", "z" };
+			return new String[]{ "X", "Y", "Z" };
 			}
 
 		public int getNumAxis()
 			{
 			return 3;
 			}
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		public double[] getStagePos()
 			{
-			return new double[]{ stagePos[0], stagePos[1], stagePos[2] };
+			return new double[]{ -stagePos[0], -stagePos[1], -stagePos[2] };
 			}
 
 		public void setRelStagePos(double[] axis)
@@ -469,7 +480,7 @@ public class FrivolousDeviceProvider extends EvDeviceProvider implements EvDevic
 
 			
 			for (int i = 0; i<3; i++)
-				stagePos[i] = axis[i];
+				stagePos[i] = -axis[i];
 
 			model.getSettings().offsetZ = stagePos[2];
 			if(stagePos[2]!=oldZ)

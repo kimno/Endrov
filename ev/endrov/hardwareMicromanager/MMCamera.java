@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import javax.vecmath.Vector2d;
+
 import endrov.hardware.DevicePropertyType;
 import endrov.hardware.EvDeviceObserver;
 import endrov.recording.CameraImage;
@@ -120,6 +122,7 @@ public class MMCamera /*extends MMDeviceAdapter*/ implements HWCamera
 	//		int numComponent=(int)core.getNumberOfComponents();
 
 			mm.core.setExposure(expTime.doubleValue());
+			
 			return MMutil.snap(mm.core, mmDeviceName);
 			}
 		catch (Exception e)
@@ -267,4 +270,16 @@ public class MMCamera /*extends MMDeviceAdapter*/ implements HWCamera
 		{
 		event.remove(listener);
 		}
+
+	public long getCamWidth() {
+		
+		return mm.core.getImageWidth();
+	}
+
+	public long getCamHeight() {
+		
+		return mm.core.getImageHeight();
+	}
+
+	
 	}

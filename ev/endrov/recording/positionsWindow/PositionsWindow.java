@@ -26,7 +26,7 @@ import endrov.recording.widgets.RecWidgetTimes;
 import endrov.util.EvSwingUtil;
 
 /**
- *
+ * Window used to create and remove positions
  */
 public class PositionsWindow extends BasicWindow
 	{
@@ -37,8 +37,6 @@ public class PositionsWindow extends BasicWindow
 	
 	
 	private WidgetPositions wpos=new WidgetPositions();
-//	private RecWidgetPositions wpos=new RecWidgetPositions();
-
 	
 	public PositionsWindow()
 		{
@@ -56,7 +54,6 @@ public class PositionsWindow extends BasicWindow
 		setVisibleEvWindow(true);
 		}
 
-	
 	
 	public void dataChangedEvent()
 		{

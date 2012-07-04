@@ -44,9 +44,7 @@ public class RecordingResource
 	{
 	public interface PositionListListener
 	{
-
 		public void positionsUpdated();
-		
 	}
 	
 	public static GeneralObserver<PositionListListener> posListListeners=new GeneralObserver<RecordingResource.PositionListListener>();
@@ -56,24 +54,7 @@ public class RecordingResource
 	public static void posListUpdated(){
 		for(PositionListListener list:posListListeners.getListeners())
 			list.positionsUpdated();
-	}
-	
-//	ActionListener t = new ActionListener() {
-//		JButton b = new JButton();
-//		//b.addActionListener(t);
-//		public ActionListener(){
-//			
-//		}
-//		public void actionPerformed(ActionEvent e) {
-//			// TODO Auto-generated method stub
-//			
-//		}
-//	};
-	
-	
-	
-	
-	
+	}	
 	
 	public static EvSound soundCameraSnap;
 

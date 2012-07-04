@@ -1,6 +1,11 @@
 package endrov.recording.positionsWindow;
 
 import endrov.recording.device.HWStage;
+/**
+ * Stores axis information
+ * @author RIOT
+ *
+ */
 
 public class AxisInfo {
 	

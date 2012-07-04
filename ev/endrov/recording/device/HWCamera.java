@@ -15,6 +15,8 @@ import endrov.recording.CameraImage;
 public interface HWCamera extends EvDevice
 	{
 	public CameraImage snap();
+	public long getCamWidth();
+	public long getCamHeight();
 	
 
 	public void startSequenceAcq(/*Integer numImages, */double interval) throws Exception;

@@ -232,9 +232,7 @@ public class ResolutionConfigWindow extends BasicWindow implements ActionListene
 					// TODO Auto-generated catch block
 					System.out.println("Invalid picture");
 				}
-				
-				System.out.println(corrV[0] + " " + corrV[1]);
-				
+
 				//[um/px]
 				double resX, resY;
 				resX = cameraDisplacment/corrV[0];
@@ -246,9 +244,7 @@ public class ResolutionConfigWindow extends BasicWindow implements ActionListene
 				rstate.cameraRes=new ResolutionManager.Resolution(resX, resY);
 				rstate.state=State.recordCurrent(wProperties.getSelectedProperties());
 				ResolutionManager.getCreateResolutionStatesMap(campath).put(name, rstate);
-				
 				generateList();
-				
 				System.out.println(resX + " " + resY);
 				
 			

@@ -7,30 +7,20 @@ package endrov.recording.overviewWindow;
 
 
 import java.awt.BorderLayout;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.vecmath.Vector2d;
-
-import net.imglib2.exception.IncompatibleTypeException;
 
 import org.jdom.*;
 
 import endrov.basicWindow.*;
 import endrov.data.EvContainer;
 import endrov.data.EvData;
-import endrov.ev.EV;
-import endrov.ev.EvLog;
-import endrov.ev.EvLogStdout;
 import endrov.hardware.*;
 import endrov.imageWindow.GeneralTool;
 import endrov.imageWindow.ImageWindow;
@@ -49,7 +39,6 @@ import endrov.recording.device.HWStage;
 import endrov.recording.liveWindow.LiveHistogramViewRanged;
 import endrov.recording.positionsWindow.AxisInfo;
 import endrov.recording.positionsWindow.Position;
-import endrov.recording.resolutionConfigWindow.ImageDisplacementCorrelation;
 import endrov.roi.GeneralToolROI;
 import endrov.roi.ImageRendererROI;
 import endrov.roi.ROI;
@@ -58,7 +47,6 @@ import endrov.util.EvDecimal;
 import endrov.util.EvSwingUtil;
 import endrov.util.JImageButton;
 import endrov.util.JImageToggleButton;
-import endrov.util.Vector2i;
 
 /**
  * 
@@ -84,14 +72,10 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 	 *****************************************************************************************************/
 	
 	private EvPixels[] lastCameraImage=null;
-	private Vector2d imageOffset=new Vector2d(0,0);
-	
-	private boolean toggle = true;
-	private EvPixels nImage;
-	private EvPixels oImage;
+	private Vector2d overviewImageOffset=new Vector2d(0,0);
 
-	private int imgWidth=0;
-	private int imgHeight=0;
+	private int overviewImgWidth=0;
+	private int overviewImgHeight=0;
 	
 	private JComboBox cameraCombo;
 	
@@ -109,8 +93,6 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 	private JButton bGoToROI=new JImageButton(iconGoToROI, "Move stage to focus on ROI");
 	private JButton bCreatePos=new JImageButton(iconCreatePos, "Create positions from ROI");
 	
-//	private JButton bSuperSnap=new JImageButton(iconAutoFocus, "");
-	
 	
 	/**
 	 * Surface for the image
@@ -120,8 +102,10 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 		private static final long serialVersionUID = 1L;
 		public int getUpper(){return histoView.upper;}
 		public int getLower(){return histoView.lower;}
+		public long getCameraWidth() {return getCurrentCamera().getCamWidth();}
+		public long getCameraHeight() {return getCurrentCamera().getCamHeight();}
 		@Override
-		public Vector2d getOffset() {return imageOffset;}
+		public Vector2d getOffset() {return overviewImageOffset;}
 		
 		
 		protected void paintComponent(java.awt.Graphics g)
@@ -133,6 +117,7 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 			{
 			return getCurrentCameraPath();
 			}
+		
 		
 		};
 	
@@ -245,7 +230,6 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 		bGoToROI.addActionListener(this);
 		bResetView.addActionListener(this);
 		bCreatePos.addActionListener(this);
-//		bSuperSnap.addActionListener(this);
 		
 		//pHisto.setBorder(BorderFactory.createTitledBorder("Range adjustment"));
 		pHisto.add(
@@ -259,7 +243,6 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 		blistleft.add(bGoToROI);
 		blistleft.add(bAutoFocus);
 		blistleft.add(bCreatePos);
-//		blistleft.add(bSuperSnap);
 		JComponent pLeft=EvSwingUtil.layoutACB(
 				EvSwingUtil.layoutEvenVertical(
 						blistleft.toArray(new JComponent[0])
@@ -294,8 +277,6 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 		packEvWindow();
 		setVisibleEvWindow(true);
 		setBoundsEvWindow(bounds);
-	
-		//setResizable(false);
 		
 		RecordingResource.posListListeners.addWeakListener(this);
 		
@@ -340,8 +321,10 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 			autofocus();
 		else if(e.getSource()==bGoToROI)
 			moveStageFocusROI();
-		else if(e.getSource()==bCameraToROI)
+		else if(e.getSource()==bCameraToROI){
 			showErrorDialog("Not implemented yet");
+		}
+			
 		else if(e.getSource()==bCreatePos){
 			 
 			
@@ -351,17 +334,6 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 			int yAxisNum = 0;
 			for(HWStage stage:EvHardware.getDeviceMapCast(HWStage.class).values())
 			{
-//			String[] aname=stage.getAxisName();
-//			for(int i=0;i<aname.length;i++)
-//				if(aname[i].equals("x") || aname[i].equals("X")){
-//					xStage = stage;
-//					xAxisNum = aname[i].
-//				}
-//				else if (aname[i].equals("y") || aname[i].equals("Y")){
-//					yStage = stage;
-//				}
-//			}
-			 
 				int aname=stage.getNumAxis();
 				for(int i=0;i<aname;i++)
 					if(stage.getAxisName()[i].equals("x") || stage.getAxisName()[i].equals("X")){
@@ -383,181 +355,48 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 				showErrorDialog("Couldn't find one or several stages");
 			else
 			{
-				
-				
-				
 			ROI roi=rois.iterator().next();
-			 
-			// double x=roi.getPlacementHandle1().getX();
-			// double y=roi.getPlacementHandle2().getY();
-			// double x=roi.getPlacementHandle1().getX();
-			// double y=roi.getPlacementHandle2().getY();
-			 
 			double xUpper=roi.getPlacementHandle1().getX();
 			double yUpper=roi.getPlacementHandle1().getY();
 			double xLower=roi.getPlacementHandle2().getX();
 			double yLower=roi.getPlacementHandle2().getY();
+			HWCamera cam=getCurrentCamera();
+//			double noOfImagesX=Math.ceil(Math.abs(xUpper-xLower)/1344);
+//			double noOfImagesY=Math.ceil(Math.abs(yUpper-yLower)/1024);
+			double noOfImagesX=Math.ceil(Math.abs(xUpper-xLower)/cam.getCamWidth());
+			double noOfImagesY=Math.ceil(Math.abs(yUpper-yLower)/cam.getCamHeight());
 			 
-			double noOfImagesX=Math.ceil(Math.abs(xUpper-xLower)/1344);
-			double noOfImagesY=Math.ceil(Math.abs(yUpper-yLower)/1024);
-			 
-			//LinkedList<Position> posList = new LinkedList<Position>();
-			 
-			
-			
 			for(int i = 0; i < (int)noOfImagesY; i++){
 				for(int j = 0; j < (int)noOfImagesX; j++){
-//					posList.add(new Position(xUpper + 512*j, yUpper + 512*i, 0));
 					AxisInfo[] posInfo = new AxisInfo[2];
-					posInfo[0] = new AxisInfo(xStage,xAxisNum, (xUpper + 1344*j)*2);
-					posInfo[1] = new AxisInfo(yStage,yAxisNum, (yUpper + 1024*i)*2);
+//					posInfo[0] = new AxisInfo(xStage,xAxisNum, (xUpper + 1344*j)*2);
+//					posInfo[1] = new AxisInfo(yStage,yAxisNum, (yUpper + 1024*i)*2);
+					posInfo[0] = new AxisInfo(xStage,xAxisNum, (xUpper + cam.getCamWidth()*j)*2);
+					posInfo[1] = new AxisInfo(yStage,yAxisNum, (yUpper + cam.getCamHeight()*i)*2);
 					
-					//posList.add(new Position(posInfo));
-					int index = 0;
-					boolean indexNotFound = true;
-					String newName = "POS"+index;
-					while(indexNotFound){
-						index++;
-						newName = "POS"+index;
-						if(RecordingResource.posList.size()>0){
-							for(Position pos:RecordingResource.posList){
-								if(pos.getName().compareTo(newName)==0){
-									indexNotFound = true;
-									break;
-								}else{
-									indexNotFound = false;		
-								}
-							}
-						}
-						else{
-							break;
-						}
-					}
+					//Find all names in use
+					Set<String> usedNames=new HashSet<String>();
+					for(Position pos: RecordingResource.posList)
+						usedNames.add(pos.getName());
 					
-					
+					//Generate an unused name
+					String newName;
+					int posi=0;
+					do
+						{
+						newName="POS"+posi;
+						posi++;
+						} while(usedNames.contains(newName));
+
 					Position newPos = new Position(posInfo, newName);
 					RecordingResource.posList.add(newPos);
 				}
 			}
-			//RecordingResource.posList=posList;
 			RecordingResource.posListUpdated();
 			
 			}
 			 
 			}
-//		else if(e.getSource()==bSuperSnap){
-//
-//			System.out.println( getCameraResolution().x+" "+getCameraResolution().y );
-//
-//			EvLog.addListener(new EvLogStdout());
-//			EV.loadPlugins();
-//			
-//
-//			try {
-//				EvPixels imA=new EvPixels(ImageIO.read(new File("/Users/pswadmin/Desktop/a.png")));
-//				EvPixels imB=new EvPixels(ImageIO.read(new File("/Users/pswadmin/Desktop/b.png")));
-//				
-//				
-//				double[] posz = ImageDisplacementCorrelation.displacement(imB, imA );
-//				
-//
-//				
-//				EvPixels done = new EvPixels(EvPixelsType.INT, 2000, 1700);
-//				
-//				int[] doneA= done.convertToInt(true).getArrayInt();
-//				int[] newA = imA.convertToInt(true).getArrayInt();
-//				int[] oldA = imB.convertToInt(true).getArrayInt();
-//		
-//				for(int y=0; y<imA.getHeight();y++){
-//					for(int x=0; x<imA.getWidth();x++){
-//						doneA[(int) ((y+(int)posz[1])*done.getWidth() + x+(int)posz[0])] 
-//								= newA[y*imA.getWidth() + x];
-//					}
-//				}
-//				for(int y=0; y<imB.getHeight();y++){
-//					for(int x=0; x<imB.getWidth();x++){
-//						doneA[y*done.getWidth() + x]
-//								= oldA[y*imB.getWidth() + x];
-//					}
-//				}
-//				
-//				drawArea.overviewImage = done;
-//				drawArea.repaint();
-//				
-//				
-//			} catch (IOException e2) {
-//				// TODO Auto-generated catch block
-//				e2.printStackTrace();
-//			} catch (IncompatibleTypeException e2) {
-//				// TODO Auto-generated catch block
-//				e2.printStackTrace();
-//			}
-			
-			
-//			//stitch images from camera			
-//			if(toggle){
-//				HWCamera cam=getCurrentCamera();	
-//				
-//				if(cam!=null){	
-//					CameraImage cim=cam.snap();
-//					lastCameraImage=cim.getPixels();
-//					nImage = lastCameraImage[0];
-//					
-//					Map<String, Double> diff=new HashMap<String, Double>();		
-//					
-//					diff.put("X",100.0);
-//					diff.put("Y",100.0);
-//				
-//					RecordingResource.setStagePos(diff);
-//					toggle = false;
-//				}
-//			}else{
-//				HWCamera cam=getCurrentCamera();	
-//				double[] posz=null;
-//				if(cam!=null){	
-//					CameraImage cim=cam.snap();
-//					lastCameraImage=cim.getPixels();
-//					oImage = lastCameraImage[0];
-//
-//					try {
-//						 posz = ImageDisplacementCorrelation.displacement(nImage, oImage);
-//					} catch (IncompatibleTypeException e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					}
-//					
-//					EvPixels done = new EvPixels(EvPixelsType.INT, 2000, 1700);
-//					
-//					int[] doneA= done.convertToInt(true).getArrayInt();
-//					int[] newA = nImage.convertToInt(true).getArrayInt();
-//					int[] oldA = oImage.convertToInt(true).getArrayInt();
-//					
-////					System.out.println("old "+oldA.length +" new "+ newA.length +" done "+ doneA.length);
-////					System.out.println("wide "+done.getWidth() +" high" + done.getHeight());
-//					
-//					for(int y=0; y<oImage.getHeight();y++){
-//						for(int x=0; x<oImage.getWidth();x++){
-//							doneA[(int) ((y+(int)posz[1])*done.getWidth() + x+(int)posz[0])] 
-//									= oldA[y*oImage.getWidth() + x];
-//						}
-//					}
-//					for(int y=0; y<nImage.getHeight();y++){
-//						for(int x=0; x<nImage.getWidth();x++){
-//							doneA[y*done.getWidth() + x]
-//									= newA[y*nImage.getWidth() + x];
-//						}
-//					}
-//					
-//					
-//					drawArea.overviewImage = done;
-//					
-//					drawArea.repaint();
-//					toggle = true;
-//				}
-//			}
-			
-			
-//		}
 		else if(e.getSource()==histoView)
 			{
 			drawArea.repaint();
@@ -608,107 +447,6 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 		return (EvDevicePath)cameraCombo.getSelectedItem();
 		}
 	
-//	/**
-//	 * Take one picture from the camera	
-//	 */
-//	private void snapCamera()
-//		{	
-//		HWCamera cam=getCurrentCamera();	
-//		
-//		if(cam!=null){	
-//			CameraImage cim=cam.snap();
-//			lastCameraImage=cim.getPixels();
-//			EvPixels newImage = lastCameraImage[0];
-//			EvPixels oldImage = drawArea.overviewImage;		
-//			
-//			Vector2d newImgPos=new Vector2d(0,0);
-//			Vector2d oldImgPos=new Vector2d(0,0);
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//			
-//			
-//			if(drawArea.overviewImage.getWidth() == 1 && drawArea.overviewImage.getHeight() == 1){
-//				
-//				drawArea.setWorldOffset(getStageX(), getStageY());			
-//			}
-//			
-//			
-//			
-//			if(getStageX()>imageOffset.x){
-//				oldImgPos.x = getStageX()-imageOffset.x;
-//				imageOffset.x = getStageX();
-//				imgWidth = oldImage.getWidth() + (int)oldImgPos.x;		
-//				
-//			}else{			
-//				if(oldImage.getWidth() >= -getStageX() + newImage.getWidth()+imageOffset.x){
-//					imgWidth = (int)(oldImage.getWidth());
-//					System.out.println("A");
-//				}
-//				else{
-//					imgWidth = (int)(-getStageX() + newImage.getWidth()+imageOffset.x);
-//					System.out.println("B");
-//				}
-//			}
-//			
-//			if(getStageY()>imageOffset.y){
-//				oldImgPos.y = getStageY()-imageOffset.y;
-//				imageOffset.y= getStageY();
-//				imgHeight = oldImage.getHeight() + (int)oldImgPos.y;			
-//			}else{
-//				if(oldImage.getHeight() >= -getStageY() + newImage.getHeight()+imageOffset.y){
-//					imgHeight = (int)(oldImage.getHeight());
-//					System.out.println("C");
-//				}
-//				else{
-//					imgHeight = (int)(-getStageY() + newImage.getHeight()+imageOffset.y);
-//					System.out.println("D");		
-//				}
-//			}
-//			
-//			newImgPos = new Vector2d(imageOffset.x-getStageX(), imageOffset.y-getStageY());
-//			
-//			
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//	
-//			
-//			
-//			EvPixels done = new EvPixels(EvPixelsType.INT, imgWidth, imgHeight);
-//			
-//			int[] doneA= done.convertToInt(true).getArrayInt();
-//			int[] oldA = oldImage.convertToInt(true).getArrayInt();
-//			int[] newA = newImage.convertToInt(true).getArrayInt();
-//			
-//			System.out.println("old "+oldA.length +" new "+ newA.length +" done "+ doneA.length);
-//			System.out.println("wide "+done.getWidth() +" high" + done.getHeight());
-//			
-//			for(int y=0; y<oldImage.getHeight();y++){
-//				for(int x=0; x<oldImage.getWidth();x++){
-//					doneA[(y+(int)oldImgPos.y)*done.getWidth() + (x+(int)oldImgPos.x)] 
-//							= oldA[y*oldImage.getWidth() + x];
-//				}
-//			}
-//			for(int y=0; y<newImage.getHeight();y++){
-//				for(int x=0; x<newImage.getWidth();x++){
-//					doneA[(y+(int)newImgPos.y)*done.getWidth() + (x+(int)newImgPos.x)]
-//							= newA[y*newImage.getWidth() + x];
-//				}
-//			}
-//			
-//			
-//			drawArea.overviewImage = done;
-//
-//		}
-//
-//		drawArea.repaint();
-//	
-//		//drawArea
-//		
-//		//stoppa i overviewimage
-//		//kan behöva förstora bild. fråga: upplösning? offset?
-//		
-//		//kolla i förra snapcamera		
-//		
-//		}
-	
 	/**
 	 * Take one picture from the camera	
 	 */
@@ -717,91 +455,75 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 		HWCamera cam=getCurrentCamera();	
 		
 		if(cam!=null){	
-			CameraImage cim=cam.snap();
-			lastCameraImage=cim.getPixels();
-			EvPixels newImage = lastCameraImage[0];
-			EvPixels oldImage = drawArea.overviewImage;		
 			
-			Vector2d newImgPos=new Vector2d(0,0);
-			Vector2d oldImgPos=new Vector2d(0,0);
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			if(drawArea.overviewImage == null){
+				drawArea.overviewImage = new EvPixels(EvPixelsType.INT,(int)cam.getCamWidth(),(int)cam.getCamHeight());
+			}
+			
+			CameraImage cim=cam.snap();
+			
+			lastCameraImage=cim.getPixels();
+			EvPixels cameraImage = lastCameraImage[0];
+			EvPixels overviewImage = drawArea.overviewImage;		
+			
+			Vector2d cameraImgPos=new Vector2d(0,0);
+			Vector2d overviewImgPos=new Vector2d(0,0);
 			
 			ResolutionManager.Resolution res = new ResolutionManager.Resolution(getCameraResolution().x, getCameraResolution().y);
 			
 			
-			if(-getStageX()/res.x >imageOffset.x){
-				oldImgPos.x = -getStageX()/res.x-imageOffset.x;
-				imageOffset.x = -getStageX()/res.x;
-				imgWidth = oldImage.getWidth() + (int)oldImgPos.x;		
+			if(-getStageX()/res.x >overviewImageOffset.x){//when the cameraImage position is farther left then the current offset
+				overviewImgPos.x = -getStageX()/res.x-overviewImageOffset.x;//offset to make room for new image
+				overviewImageOffset.x = -getStageX()/res.x;//offset is updated 
+				overviewImgWidth = overviewImage.getWidth() + (int)overviewImgPos.x;//extend the overviewImage		
 				
 			}else{			
-				if(oldImage.getWidth() >= getStageX()/res.x + newImage.getWidth()+imageOffset.x){
-					imgWidth = (int)(oldImage.getWidth());
-					System.out.println("A");
+				if(overviewImage.getWidth() >= getStageX()/res.x + cameraImage.getWidth()+overviewImageOffset.x){//when the cameraImage position fits inside the overviewImage
+					overviewImgWidth = (int)(overviewImage.getWidth());//overviewImage width is unchanged
 				}
-				else{
-					imgWidth = (int)(getStageX()/res.x + newImage.getWidth()+imageOffset.x);
-					System.out.println("B");
+				else{//when the cameraImage position is farther right then the overviewImage 
+					overviewImgWidth = (int)(getStageX()/res.x + cameraImage.getWidth()+overviewImageOffset.x);//extend the overviewImage
 				}
 			}
-			
-			if(-getStageY()/res.y>imageOffset.y){
-				oldImgPos.y = -getStageY()/res.y-imageOffset.y;
-				imageOffset.y= -getStageY()/res.y;
-				imgHeight = oldImage.getHeight() + (int)oldImgPos.y;			
+			//same as before but for the Y-axis
+			if(-getStageY()/res.y>overviewImageOffset.y){
+				overviewImgPos.y = -getStageY()/res.y-overviewImageOffset.y;
+				overviewImageOffset.y= -getStageY()/res.y;
+				overviewImgHeight = overviewImage.getHeight() + (int)overviewImgPos.y;			
 			}else{
-				if(oldImage.getHeight() >= getStageY()/res.y + newImage.getHeight()+imageOffset.y){
-					imgHeight = (int)(oldImage.getHeight());
-					System.out.println("C");
+				if(overviewImage.getHeight() >= getStageY()/res.y + cameraImage.getHeight()+overviewImageOffset.y){
+					overviewImgHeight = (int)(overviewImage.getHeight());
 				}
 				else{
-					imgHeight = (int)(getStageY()/res.y + newImage.getHeight()+imageOffset.y);
-					System.out.println("D");		
+					overviewImgHeight = (int)(getStageY()/res.y + cameraImage.getHeight()+overviewImageOffset.y);	
 				}
 			}
 			
-			newImgPos = new Vector2d(imageOffset.x+getStageX()/res.x, imageOffset.y+getStageY()/res.y);
-			
-			
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			cameraImgPos = new Vector2d(overviewImageOffset.x+getStageX()/res.x, overviewImageOffset.y+getStageY()/res.y);//
 
 			//add the new image with the old
-			EvPixels done = new EvPixels(EvPixelsType.INT, imgWidth, imgHeight);
+			EvPixels newOverviewImage = new EvPixels(EvPixelsType.INT, overviewImgWidth, overviewImgHeight);
 			
-			int[] doneA= done.convertToInt(true).getArrayInt();
-			int[] oldA = oldImage.convertToInt(true).getArrayInt();
-			int[] newA = newImage.convertToInt(true).getArrayInt();
+			int[] newOverviewArray= newOverviewImage.convertToInt(true).getArrayInt();
+			int[] overviewArray = overviewImage.convertToInt(true).getArrayInt();
+			int[] cameraArray = cameraImage.convertToInt(true).getArrayInt();
 			
-			System.out.println("old "+oldA.length +" new "+ newA.length +" done "+ doneA.length);
-			System.out.println("wide "+done.getWidth() +" high" + done.getHeight());
-			
-			for(int y=0; y<oldImage.getHeight();y++){
-				for(int x=0; x<oldImage.getWidth();x++){
-					doneA[(y+(int)oldImgPos.y)*done.getWidth() + (x+(int)oldImgPos.x)] 
-							= oldA[y*oldImage.getWidth() + x];
+			for(int y=0; y<overviewImage.getHeight();y++){
+				for(int x=0; x<overviewImage.getWidth();x++){
+					newOverviewArray[(y+(int)overviewImgPos.y)*newOverviewImage.getWidth() + (x+(int)overviewImgPos.x)] 
+							= overviewArray[y*overviewImage.getWidth() + x];
 				}
 			}
-			for(int y=0; y<newImage.getHeight();y++){
-				for(int x=0; x<newImage.getWidth();x++){
-					doneA[(y+(int)newImgPos.y)*done.getWidth() + (x+(int)newImgPos.x)]
-							= newA[y*newImage.getWidth() + x];
+			for(int y=0; y<cameraImage.getHeight();y++){
+				for(int x=0; x<cameraImage.getWidth();x++){
+					newOverviewArray[(y+(int)cameraImgPos.y)*newOverviewImage.getWidth() + (x+(int)cameraImgPos.x)]
+							= cameraArray[y*cameraImage.getWidth() + x];
 				}
 			}
-			
-			
-			drawArea.overviewImage = done;
 
+			drawArea.overviewImage = newOverviewImage;
 		}
-
-		drawArea.repaint();
-	
-		//drawArea
-		
-		//stoppa i overviewimage
-		//kan behöva förstora bild. fråga: upplösning? offset?
-		
-		//kolla i förra snapcamera		
-		
+		drawArea.repaint();	
 		}
 	
 	
@@ -814,11 +536,12 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 		
 	public void resetView(){
 		lastCameraImage=null;
-		imageOffset=new Vector2d(0,0);
-		imgWidth=0;
-		imgHeight=0;
+		overviewImageOffset=new Vector2d(0,0);
+		overviewImgWidth=0;
+		overviewImgHeight=0;
 		drawArea.resetCameraPos();
-		drawArea.overviewImage = new EvPixels(EvPixelsType.INT,1344,1024);
+//		drawArea.overviewImage = new EvPixels(EvPixelsType.INT,1344,1024);
+		drawArea.overviewImage = new EvPixels(EvPixelsType.INT,(int)getCurrentCamera().getCamWidth(),(int)getCurrentCamera().getCamHeight());
 		repaint();
 	}
 	
@@ -836,12 +559,6 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 		{
 		resetView();
 		}
-	
-
-	
-	
-	
-	
 	
 	public void addImageWindowRenderer(ImageWindowRenderer renderer)
 		{
@@ -868,8 +585,6 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 		throw new RuntimeException("No such renderer exists - " + cl);
 		}
 
-	
-	
 	
 	public EvContainer getRootObject()
 		{
@@ -941,13 +656,13 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 //		}
 	public Vector2d transformPointS2W(Vector2d v)
 	{
-	return new Vector2d((v.x*getCameraResolution().x/drawArea.getScale()-drawArea.getCameraPos().x/drawArea.getScale()-imageOffset.x), 
-			(v.y*getCameraResolution().y/drawArea.getScale()-drawArea.getCameraPos().y/drawArea.getScale()-imageOffset.y)); 
+	return new Vector2d((v.x*getCameraResolution().x/drawArea.getScale()-drawArea.getCameraPos().x/drawArea.getScale()-overviewImageOffset.x), 
+			(v.y*getCameraResolution().y/drawArea.getScale()-drawArea.getCameraPos().y/drawArea.getScale()-overviewImageOffset.y)); 
 	}
 	
 	public Vector2d transformPointW2S(Vector2d v)
 		{
-		return new Vector2d((v.x+imageOffset.x), (v.y+imageOffset.y));
+		return new Vector2d((v.x+overviewImageOffset.x), (v.y+overviewImageOffset.y));
 		}
 
 	public double w2sz(double z)

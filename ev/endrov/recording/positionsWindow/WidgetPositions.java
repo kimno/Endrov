@@ -24,8 +24,10 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Set;
 
 import java.util.Map;
 
@@ -42,13 +44,14 @@ import endrov.hardware.EvDevice;
 import endrov.hardware.EvDevicePath;
 import endrov.hardware.EvHardware;
 import endrov.recording.RecordingResource;
+import endrov.recording.ResolutionManager;
 import endrov.recording.RecordingResource.PositionListListener;
 import endrov.recording.device.HWCamera;
 import endrov.recording.device.HWStage;
 import endrov.util.EvSwingUtil;
 
 /**
- * 
+ * Widget used by PositionsWindow to handle positions
  */
 public class WidgetPositions extends JPanel implements ActionListener, PositionListListener
 {
@@ -134,32 +137,26 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 								);
 			}
 			
-			//generate index name
-			int index = 0;
-			boolean indexNotFound = true;
-			String newName = "POS"+index;
-			while(indexNotFound){
-				index++;
-				newName = "POS"+index;
-				if(RecordingResource.posList.size()>0){
-					for(Position pos:RecordingResource.posList){
-						if(pos.getName().compareTo(newName)==0){
-							indexNotFound = true;
-							break;
-						}else{
-							indexNotFound = false;		
-						}
-					}
-				}
-				else{
-					break;
-				}
-			}
+			//Find all names in use
+			Set<String> usedNames=new HashSet<String>();
+			for(Position pos: RecordingResource.posList)
+				usedNames.add(pos.getName());
 			
+			
+			//Generate an unused name
+			String newName;
+			int posi=0;
+			do
+				{
+				newName="POS"+posi;
+				posi++;
+				} while(usedNames.contains(newName));
+
 			Position newPos = new Position(newInfo, newName);
 			RecordingResource.posList.add(newPos);
 			
 			RecordingResource.posListUpdated();
+			
 			
 		}
 		else if(e.getSource()==bRemove)

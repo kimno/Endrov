@@ -15,7 +15,7 @@ import endrov.hardware.EvHardware;
 import endrov.recording.device.HWStage;
 
 /**
- * 
+ * Stores a stage configuration
  */
 public class Position implements Serializable{
 	

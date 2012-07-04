@@ -41,8 +41,6 @@ public class RecWindowMultiDim extends BasicWindow
 	static final long serialVersionUID=0;
 
 	private EvMultidimAcquisition acq=new EvMultidimAcquisition();
-
-//	private List<Position> positions = new LinkedList<Position>();
 	
 	private RecWidgetSlices wslices=new RecWidgetSlices();
 	private RecWidgetTimes wtimes=new RecWidgetTimes();

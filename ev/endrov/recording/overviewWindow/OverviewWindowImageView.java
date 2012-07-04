@@ -61,7 +61,10 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 	private Vector2d cameraPos=new Vector2d();
 	
 	//has to ensure the first picture can fit
-	public EvPixels overviewImage = new EvPixels(EvPixelsType.INT,1344,1024);
+//	public EvPixels overviewImage = new EvPixels(EvPixelsType.INT,1344,1024);
+//	public EvPixels overviewImage = new EvPixels(EvPixelsType.INT,(int)getCameraWidth(),(int)getCameraHeight());
+//	public EvPixels overviewImage = new EvPixels(EvPixelsType.INT,1,1);
+	public EvPixels overviewImage = null;
 
 	private double scale;
 
@@ -88,6 +91,8 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 	public abstract int getUpper();
 		
 	public abstract EvDevicePath getCameraPath();
+	public abstract long getCameraWidth();
+	public abstract long getCameraHeight();
 		
 	
 	public JToggleButton[] toolButtons;
@@ -100,11 +105,7 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 */	
 	public OverviewWindowImageView()
 		{
-		//skall kolla upplösning?
 		scale = 0.5;
-		
-		//overviewImage=new EvPixels();	
-		
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addMouseWheelListener(this);
@@ -121,158 +122,149 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 		
 		Graphics2D g=(Graphics2D)g2;
 				
-		//Make sure background is filled with something
-		//g.setColor(new Color(0.3f, 0.1f, 0.3f));
-//		g.setColor(new Color(0, 0, 0));
 		g.setColor(new Color(0, 0, 0));
 		g.fillRect(0, 0, getWidth(), getHeight());
 
-		
-		//övning åt er		
 		Vector2d offset=cameraPos;
 		g.translate((int)offset.x, (int)offset.y);
-//		g.scale(sx, sy)
 		g.scale(scale, scale);
 		
 		//Convert pixels into the right range. Mark under- and overflow
 		EvPixels[] pq=getImage();
-		if(pq!=null)
-			{
-			if(pq.length==1)
+		if(overviewImage !=null){
+			if(pq!=null)
 				{
-				//Grayscale
-			
-				EvPixels p=pq[0];
-				
-				int lower=getLower();
-				int upper=getUpper();
-				int diff=upper-lower;
-				if(diff==0)
-					diff=1; //Just to avoid divison by zero errors
-				int[] parr=p.convertToInt(true).getArrayInt();
-				int w=p.getWidth();
-				int h=p.getHeight();
-				BufferedImage toDraw=new BufferedImage(w, h, BufferedImage.TYPE_3BYTE_BGR);
-				int[] arrR=new int[parr.length];
-				int[] arrG=new int[parr.length];
-				int[] arrB=new int[parr.length];
-				for(int i=0;i<parr.length;i++)
+				if(pq.length==1)
 					{
-					int v=parr[i];
-					int out=(v-lower)*255/diff;
-					if(out<0)
-						{
-						arrR[i]=0;
-						arrG[i]=0;
-						arrB[i]=255;
-						}
-					else if(out>255)
-						{
-						arrR[i]=255;
-						arrG[i]=0;
-						arrB[i]=0;
-						}
-					else
-						{
-						arrR[i]=out;
-						arrG[i]=out;
-						arrB[i]=out;
-						}
-					}
-				WritableRaster raster=toDraw.getRaster();
-				raster.setSamples(0, 0, w, h, 0, arrR);
-				raster.setSamples(0, 0, w, h, 1, arrG);
-				raster.setSamples(0, 0, w, h, 2, arrB);
+					//Grayscale
 				
-				g.drawImage(toDraw, 0, 0, null);
-				
-				}
-			else
-				{
-				//RGB
-				
-				int lower=getLower();
-				int upper=getUpper();
-				int diff=upper-lower;
-				if(diff==0)
-					diff=1; //Just to avoid divison by zero errors
-				
-				int[] parrR=pq[0].convertToInt(true).getArrayInt();
-				int[] parrG=pq[1].convertToInt(true).getArrayInt();
-				int[] parrB=pq[2].convertToInt(true).getArrayInt();
-				int w=pq[0].getWidth();
-				int h=pq[0].getHeight();
-				BufferedImage toDraw=new BufferedImage(w, h, BufferedImage.TYPE_3BYTE_BGR);
-				int[] arrR=new int[parrR.length];
-				int[] arrG=new int[parrG.length];
-				int[] arrB=new int[parrB.length];
-				for(int i=0;i<parrR.length;i++)
-					{
-					int vR=parrR[i];
-					int outR=(vR-lower)*255/diff;
-					int vG=parrG[i];
-					int outG=(vG-lower)*255/diff;
-					int vB=parrB[i];
-					int outB=(vB-lower)*255/diff;
-
-					if(vR<0 || vG<0 || vB<0 || vR>255 || vG>255 || vB>255)
+					EvPixels p=pq[0];
+					
+					int lower=getLower();
+					int upper=getUpper();
+					int diff=upper-lower;
+					if(diff==0)
+						diff=1; //Just to avoid divison by zero errors
+					int[] parr=p.convertToInt(true).getArrayInt();
+					int w=p.getWidth();
+					int h=p.getHeight();
+					BufferedImage toDraw=new BufferedImage(w, h, BufferedImage.TYPE_3BYTE_BGR);
+					int[] arrR=new int[parr.length];
+					int[] arrG=new int[parr.length];
+					int[] arrB=new int[parr.length];
+					for(int i=0;i<parr.length;i++)
 						{
-						arrR[i]=255;
-						arrG[i]=0;
-						arrB[i]=0;
+						int v=parr[i];
+						int out=(v-lower)*255/diff;
+						if(out<0)
+							{
+							arrR[i]=0;
+							arrG[i]=0;
+							arrB[i]=255;
+							}
+						else if(out>255)
+							{
+							arrR[i]=255;
+							arrG[i]=0;
+							arrB[i]=0;
+							}
+						else
+							{
+							arrR[i]=out;
+							arrG[i]=out;
+							arrB[i]=out;
+							}
 						}
-					else
-						{
-						arrR[i]=outR;
-						arrG[i]=outG;
-						arrB[i]=outB;
-						}
+					WritableRaster raster=toDraw.getRaster();
+					raster.setSamples(0, 0, w, h, 0, arrR);
+					raster.setSamples(0, 0, w, h, 1, arrG);
+					raster.setSamples(0, 0, w, h, 2, arrB);
+					
+					g.drawImage(toDraw, 0, 0, null);
 					
 					}
-				WritableRaster raster=toDraw.getRaster();
-				raster.setSamples(0, 0, w, h, 0, arrR);
-				raster.setSamples(0, 0, w, h, 1, arrG);
-				raster.setSamples(0, 0, w, h, 2, arrB);
+				else
+					{
+					//RGB
+					
+					int lower=getLower();
+					int upper=getUpper();
+					int diff=upper-lower;
+					if(diff==0)
+						diff=1; //Just to avoid divison by zero errors
+					
+					int[] parrR=pq[0].convertToInt(true).getArrayInt();
+					int[] parrG=pq[1].convertToInt(true).getArrayInt();
+					int[] parrB=pq[2].convertToInt(true).getArrayInt();
+					int w=pq[0].getWidth();
+					int h=pq[0].getHeight();
+					BufferedImage toDraw=new BufferedImage(w, h, BufferedImage.TYPE_3BYTE_BGR);
+					int[] arrR=new int[parrR.length];
+					int[] arrG=new int[parrG.length];
+					int[] arrB=new int[parrB.length];
+					for(int i=0;i<parrR.length;i++)
+						{
+						int vR=parrR[i];
+						int outR=(vR-lower)*255/diff;
+						int vG=parrG[i];
+						int outG=(vG-lower)*255/diff;
+						int vB=parrB[i];
+						int outB=(vB-lower)*255/diff;
+	
+						if(vR<0 || vG<0 || vB<0 || vR>255 || vG>255 || vB>255)
+							{
+							arrR[i]=255;
+							arrG[i]=0;
+							arrB[i]=0;
+							}
+						else
+							{
+							arrR[i]=outR;
+							arrG[i]=outG;
+							arrB[i]=outB;
+							}
+						
+						}
+					WritableRaster raster=toDraw.getRaster();
+					raster.setSamples(0, 0, w, h, 0, arrR);
+					raster.setSamples(0, 0, w, h, 1, arrG);
+					raster.setSamples(0, 0, w, h, 2, arrB);
+					
+					g.drawImage(toDraw, 0, 0, null);
+					
+					}
+	
 				
-				g.drawImage(toDraw, 0, 0, null);
 				
+				for(Position pos:RecordingResource.posList){
+					
+					g.setColor(pos.getColor().getAWTColor());
+	
+					double xPos = 0;
+					double yPos = 0;
+					
+					for(AxisInfo info:pos.getAxisInfo()){
+						if(info.getDevice().getAxisName()[info.getAxis()].contains("X")){
+							xPos=info.getValue();
+						}else if(info.getDevice().getAxisName()[info.getAxis()].contains("Y")){
+							yPos=info.getValue();
+						}
+					}
+	//				g.fillOval((int)( xPos/2+672+getOffset().x), (int) (yPos/2+512+getOffset().y), 10, 10);
+	//				g.setFont(new Font("Arial", Font.PLAIN, 12));
+	//				g.drawString(pos.toString(), (int)( xPos/2+672+getOffset().x), (int) (yPos/2+512+getOffset().y));
+					g.fillOval((int)( xPos/2+getCameraWidth()/2+getOffset().x), (int) (yPos/2+getCameraHeight()/2+getOffset().y), 10, 10);
+					g.setFont(new Font("Arial", Font.PLAIN, 12));
+					g.drawString(pos.toString(), (int)( xPos/2+getCameraWidth()/2+getOffset().x), (int) (yPos/2+getCameraHeight()/2+getOffset().y));
+				}		
+				
+				g.translate(-offset.x, -offset.y);
 				}
-
 			}
 		
 		
 		for(ImageWindowRenderer r:imageWindowRenderers)
 			r.draw(g);
-		
-		
-//		for(Position de:RecordingResource.posList){
-//			de.getName();
-//			de.getColor();
-//		}
-		
-		for(Position pos:RecordingResource.posList){
-			
-			g.setColor(pos.getColor().getAWTColor());
-
-//			g.setColor(new Color(255,255,255));
-
-//			g.fillOval((int) (-pos.getX()+getOffset().x+256), (int) (-pos.getY()+getOffset().y+256), 5, 5);
-			double xPos = 0;
-			double yPos = 0;
-			
-			for(AxisInfo info:pos.getAxisInfo()){
-				if(info.getDevice().getAxisName()[info.getAxis()].contains("X")){
-					xPos=info.getValue();
-				}else if(info.getDevice().getAxisName()[info.getAxis()].contains("Y")){
-					yPos=info.getValue();
-				}
-			}
-			g.fillOval((int)( xPos/2+672+getOffset().x), (int) (yPos/2+512+getOffset().y), 10, 10);
-			g.setFont(new Font("Arial", Font.PLAIN, 12));
-			g.drawString(pos.toString(), (int)( xPos/2+672+getOffset().x), (int) (yPos/2+512+getOffset().y));
-		}		
-		
-		g.translate(-offset.x, -offset.y);
 		}
 	
 	
@@ -281,18 +273,17 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 		{
 		lastMousePosition=new Vector2i(e.getX(),e.getY());
 		EvDevicePath campath=getCameraPath();
+		
 		if(campath!=null)
 			{
 			ResolutionManager.Resolution res=ResolutionManager.getCurrentResolutionNotNull(campath);
 
 			Map<String, Double> diff=new HashMap<String, Double>();		
 			
-			diff.put("X",(lastMousePosition.x/scale-672-cameraPos.x/scale-getOffset().x)*res.x);
-			diff.put("Y",(lastMousePosition.y/scale-512-cameraPos.y/scale-getOffset().y)*res.y);
-			
-			System.out.println("camera X "+ cameraPos.x + " Y "+ cameraPos.y + " scale "+scale);
-			System.out.println("mousePos X " +lastMousePosition.x +" mousePos Y " + lastMousePosition.y);
-			System.out.println("diff X "+ diff.get("x") + " diff Y " + diff.get("y") );
+//			diff.put("X",(lastMousePosition.x/scale-672-cameraPos.x/scale-getOffset().x)*res.x);
+//			diff.put("Y",(lastMousePosition.y/scale-512-cameraPos.y/scale-getOffset().y)*res.y);
+			diff.put("X",(lastMousePosition.x/scale-getCameraWidth()/2-cameraPos.x/scale-getOffset().x)*res.x);
+			diff.put("Y",(lastMousePosition.y/scale-getCameraHeight()/2-cameraPos.y/scale-getOffset().y)*res.y);
 		
 			RecordingResource.setStagePos(diff);
 			repaint();
@@ -327,9 +318,6 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 		}
 	public void mouseDragged(MouseEvent e)
 		{
-//		for(JToggleButton b:toolButtons)
-//			if(b.isSelected()) move = false;
-		
 		int dx=e.getX()-lastMousePosition.x;
 		int dy=e.getY()-lastMousePosition.y;
 		lastMousePosition=new Vector2i(e.getX(),e.getY());

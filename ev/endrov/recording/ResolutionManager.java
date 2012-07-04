@@ -52,7 +52,6 @@ public class ResolutionManager
 		Map<String,ResolutionState> map=resolutions.get(camera.getDevice());
 		if(map==null)
 			resolutions.put((HWCamera) camera.getDevice(), map=new HashMap<String, ResolutionState>());
-		System.out.println(map);
 		return map;
 		}
 	

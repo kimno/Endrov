@@ -16,6 +16,10 @@ import endrov.hardware.EvHardware;
 import endrov.recording.device.HWStage;
 import endrov.util.EvSwingUtil;
 
+/**
+ * Checkbox list used to select desired hardware when creating positions
+ */
+
 public class CheckBoxList2 extends JPanel {
 
 	

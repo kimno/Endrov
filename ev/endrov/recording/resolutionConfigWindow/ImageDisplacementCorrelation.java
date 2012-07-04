@@ -33,7 +33,7 @@ import endrov.util.Vector2i;
 
 public class ImageDisplacementCorrelation {
 	
-	
+/*	
 	public static void main(String[] args) {
 		
 		EvLog.addListener(new EvLogStdout());
@@ -65,7 +65,7 @@ public class ImageDisplacementCorrelation {
 		System.exit(0);
 		
 	}
-
+*/
 	public static double[] displacement(EvPixels firstImg, EvPixels secondImg ) throws IncompatibleTypeException{
 
 		int w=firstImg.getWidth();
@@ -131,14 +131,7 @@ public class ImageDisplacementCorrelation {
 	            return null;
 	    }
         
-	    //Find dx,dy	    
-	    
-		/*
-	    double sumwx=0;
-	    double sumwy=0;
-	    double sumw=0;
-	    */
-	    
+	    //Find dx,dy 
 		final Cursor<FloatType> loc_cursor = cInverse.localizingCursor();
 		float max = 0;
 		FloatType newVal;
@@ -148,28 +141,13 @@ public class ImageDisplacementCorrelation {
 			newVal = loc_cursor.next();
 			if (max < newVal.get()) {
 				max = newVal.get();
-//				maxpos[0] = loc_cursor.getIntPosition(0);
-//				maxpos[1] = loc_cursor.getIntPosition(1);
 				loc_cursor.localize(maxpos);		
 				
-			}
-/*			
-			if(newVal.get()>0.3){
-			int[] pos = new int[2];
-				loc_cursor.localize(pos);
-				sumwx+=pos[0]*newVal.get();
-				sumwy+=pos[1]*newVal.get();
-				sumw+=newVal.get();
-			}*/
-			
+			}		
 		}
 		
 		double dx=maxpos[0];
 		double dy=maxpos[1];
-		
-//		dx=sumwx/sumw;
-//		dy=sumwy/sumw;
-		
 		
 	    //Wrap around image for negative displacements
 	    if(dx>w/2){
@@ -190,170 +168,19 @@ public class ImageDisplacementCorrelation {
 		final Cursor<FloatType> f_cursor = cInverse.localizingCursor();	    
 		while(f_cursor.hasNext()){
 			cInverseFA[k] = f_cursor.next().get();
-			//System.out.println(stuff[k]);
 			k++;
 		}
 
 	    System.out.println("  "+dx+"   "+dy+"   "+max);
-
-        
-	    EvPixels picture = EvPixels.createFromFloat((int)cInverse.dimension(0), (int)cInverse.dimension(1), cInverseFA);
-//        int[] bA = blurgh.convertToInt(true).getArrayInt();
-        
-//        for(int i = 0; i<bA.length;i++){
-//        	if(bA[i] != 0)
-//        		System.out.println(""+bA[i]);
-//        }
-        //System.out.println(""+bA[0]);
-        
-       System.out.println("DONE");
        
        //spara bild
-       BufferedImage conv=picture.quickReadOnlyAWT();
+	    //EvPixels picture = EvPixels.createFromFloat((int)cInverse.dimension(0), (int)cInverse.dimension(1), cInverseFA);
+       //BufferedImage conv=picture.quickReadOnlyAWT();
        
         return maxpos;
         
 
 	}
-	
-	
-	
-	
-	
-	/*
-	public static EvPixels displacementOld(EvPixels firstImg, EvPixels secondImg ){
-		//do stuff to turn ev pixel to a img
-//		byte[] firstByteImg = firstImg.convertToUByte(true).getArrayUnsignedByte();
-//		byte[] secondByteImg = secondImg.convertToUByte(true).getArrayUnsignedByte();
-		float[] firstByteImg = firstImg.convertToFloat(true).getArrayFloat();
-		float[] secondByteImg = secondImg.convertToFloat(true).getArrayFloat();
-//		Image<UnsignedByteType> image = DevUtil.createImageFromArray(firstByteImg, new int[]{firstImg.getWidth(), firstImg.getHeight()});
-//		Image<UnsignedByteType> kernel = DevUtil.createImageFromArray(secondByteImg, new int[]{secondImg.getWidth(), secondImg.getHeight()});
-		Image<FloatType> image = createImageFromArray(firstByteImg, new int[]{firstImg.getWidth(), firstImg.getHeight()});
-		Image<FloatType> kernel = createImageFromArray(secondByteImg, new int[]{secondImg.getWidth(), secondImg.getHeight()});
-
-				
-//		Array fe = new Array();
-//		Image derp = new Image():
-//		FFT<UnsignedByteType> h1;
-//		FFT<UnsignedByteType> h2;
-//		try {
-//			h1 = new FFT<UnsignedByteType>(fftImg1);
-//			h2 = new FFT<UnsignedByteType>(fftImg2);
-//			
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		// open with LOCI using an ArrayContainer
-		final FourierTransform< FloatType, ComplexFloatType > fft = new FourierTransform< FloatType, ComplexFloatType >( kernel, new ComplexFloatType() );
-		
-        
-        if (!( fft.checkInput() 
-        		&& fft.process() ))
-        {
-        	System.err.println( "Cannot compute fourier transform: " + fft.getErrorMessage() );
-        	return null;
-        }
-
-        final Image< ComplexFloatType > kernelFFT = fft.getResult();
-
-        // complex invert the kernel
-        final ComplexFloatType c = new ComplexFloatType();
-        for ( final ComplexFloatType t : kernelFFT.createCursor() )
-            {
-                    c.set( t );
-                    t.complexConjugate();
-                    c.mul( t );
-                    t.div( c );
-            }
-        
-     // compute inverse fourier transform of the kernel
-        final InverseFourierTransform< FloatType, ComplexFloatType > kernelIfft = new InverseFourierTransform< FloatType, ComplexFloatType >( kernelFFT, fft );
-	    final Image< FloatType > kernelInverse;
-	    if ( kernelIfft.checkInput() && kernelIfft.process() )
-	            kernelInverse = kernelIfft.getResult();
-	    else
-	    {
-	            System.err.println( "Cannot compute inverse fourier transform: " + kernelIfft.getErrorMessage() );
-	            return null;
-	    }
-        
-        
-        
-     // normalize the kernel
-	    NormalizeImageFloat<FloatType> normImage = new NormalizeImageFloat<FloatType>( kernel );
-	    	
-	    if ( !normImage.checkInput() || !normImage.process() )
-	    {
-	            System.out.println( "Cannot normalize kernel: " + normImage.getErrorMessage() );
-	            return null;
-	    }
-	
-	    kernel.close();
-	    kernel = normImage.getResult();
-        
-
-	 // display all
-        kernel.getDisplay().setMinMax();
-        kernel.setName( "kernel" );
-//        ImageJFunctions.copyToImagePlus( kernel ).show();
-
-//        kernel.getDisplay().getImage().
-//        ImagePlus test = new ImagePlus("kernel");
-
-        kernelInverse.getDisplay().setMinMax();
-        kernelInverse.setName( "inverse kernel" );
-//        ImageJFunctions.copyToImagePlus( kernelInverse ).show();
-
-        image.getDisplay().setMinMax();
-//        ImageJFunctions.copyToImagePlus( image ).show();
-        
-     // compute fourier convolution
-        FourierConvolution<FloatType, FloatType> fourierConvolution = new FourierConvolution<FloatType, FloatType>( image, kernelInverse );
-
-        if ( !fourierConvolution.checkInput() || !fourierConvolution.process() )
-        {
-                System.out.println( "Cannot compute fourier convolution: " + fourierConvolution.getErrorMessage() );
-                return null;
-        }
-
-        Image<FloatType> convolved = fourierConvolution.getResult();
-        convolved.setName( "("  + fourierConvolution.getProcessingTime() + " ms) Convolution of " + image.getName() );
-
-        convolved.getDisplay().setMinMax();
-//        ImageJFunctions.copyToImagePlus( convolved ).show();
-        FloatType[] ftemp = convolved.toArray();
-        float[] stuff = new float[ftemp.length];
-        for(int i=0; i<ftemp.length;i++){
-        	stuff[i] = ftemp[i].get();
-        	
-        }
-        
-        EvPixels blurgh = EvPixels.createFromFloat(convolved.getDimensions()[0], convolved.getDimensions()[1], stuff);
-       
-        int[] bA = blurgh.convertToInt(true).getArrayInt();
-        
-        for(int i = 0; i<bA.length;i++){
-        	if(bA[i] != 0)
-        		System.out.println(""+bA[i]);
-        }
-        //System.out.println(""+bA[0]);
-        
-       System.out.println("DONE");
-        
-        return blurgh;
-//		FourierConvolution<Image<T>, NumericType<S>
-//		FourierConvolution<NumericType<T>, NumericType<S>> he = new FourierConvolution<NumericType<T>, NumericType<S>>(image, kernel)
-//		Vector2i diffPos = null;
-//		
-//		return diffPos;
-	}*/
-//	
-//	public class imgTest implements net.imglib2.img 
-//	{
-//	
-//	}
 
 }
 

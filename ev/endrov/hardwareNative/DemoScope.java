@@ -147,6 +147,14 @@ public class DemoScope extends EvDeviceProvider implements EvDevice
 			{
 			event.remove(listener);
 			}
+		public long getCamWidth() {
+			
+			return 320;
+		}
+		public long getCamHeight() {
+			
+			return 200;
+		}
 
 		}
 

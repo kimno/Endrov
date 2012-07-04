@@ -98,12 +98,6 @@ public class EvMultidimAcquisition extends EvAcquisition
 		
 		
 		
-
-		//////////////////////////////
-		//////////////////////////////
-		//////////////////////////////
-		
-		
 		/**
 		 * Handle dimensions by recursing
 		 */
@@ -159,7 +153,7 @@ public class EvMultidimAcquisition extends EvAcquisition
 					stack.setDisplacement(new Vector3d(
 							RecordingResource.getCurrentStageX(),  //Always do this?
 							RecordingResource.getCurrentStageY(),
-							dz.multiply(currentChannel.z0).doubleValue() //scary!!!
+							dz.multiply(currentChannel.z0).doubleValue() //scary!!!!
 							));
 					
 					int zpos=(currentZCount-currentChannel.z0)/currentChannel.zInc;
@@ -356,15 +350,13 @@ public class EvMultidimAcquisition extends EvAcquisition
 				{
 					Map<String, Double> gotoPos=new HashMap<String, Double>();			
 					
-					//get all the axis'
+					//get all the axes
 					for(int i = 0; i<pos.getAxisInfo().length; i++){
 						gotoPos.put(pos.getAxisInfo()[i].getDevice().getAxisName()[pos.getAxisInfo()[i].getAxis()],
 								pos.getAxisInfo()[i].getValue());
 					}
 					//go to position
 					RecordingResource.setStagePos(gotoPos);
-					
-					System.out.println("Position "+pos.getName());
 					
 					currentPos=pos.getName();		
 					
