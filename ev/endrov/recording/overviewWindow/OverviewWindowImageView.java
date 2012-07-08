@@ -93,6 +93,8 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 	public abstract EvDevicePath getCameraPath();
 	public abstract long getCameraWidth();
 	public abstract long getCameraHeight();
+	
+	public abstract ResolutionManager.Resolution getResolution();
 		
 	
 	public JToggleButton[] toolButtons;
@@ -253,9 +255,13 @@ public abstract class OverviewWindowImageView extends JPanel implements MouseLis
 	//				g.fillOval((int)( xPos/2+672+getOffset().x), (int) (yPos/2+512+getOffset().y), 10, 10);
 	//				g.setFont(new Font("Arial", Font.PLAIN, 12));
 	//				g.drawString(pos.toString(), (int)( xPos/2+672+getOffset().x), (int) (yPos/2+512+getOffset().y));
-					g.fillOval((int)( xPos/2+getCameraWidth()/2+getOffset().x), (int) (yPos/2+getCameraHeight()/2+getOffset().y), 10, 10);
+					//xpos och ypos delat med  res
+					
+					ResolutionManager.Resolution res = getResolution();
+
+					g.fillOval((int)( xPos/res.x+getCameraWidth()/2+getOffset().x), (int) (yPos/res.y+getCameraHeight()/2+getOffset().y), 10, 10);
 					g.setFont(new Font("Arial", Font.PLAIN, 12));
-					g.drawString(pos.toString(), (int)( xPos/2+getCameraWidth()/2+getOffset().x), (int) (yPos/2+getCameraHeight()/2+getOffset().y));
+					g.drawString(pos.toString(), (int)( xPos/res.x+getCameraWidth()/2+getOffset().x), (int) (yPos/res.y+getCameraHeight()/2+getOffset().y));
 				}		
 				
 				g.translate(-offset.x, -offset.y);

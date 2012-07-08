@@ -33,6 +33,7 @@ import endrov.recording.CameraImage;
 import endrov.recording.RecordingResource;
 import endrov.recording.RecordingResource.PositionListListener;
 import endrov.recording.ResolutionManager;
+import endrov.recording.ResolutionManager.Resolution;
 import endrov.recording.device.HWAutoFocus;
 import endrov.recording.device.HWCamera;
 import endrov.recording.device.HWStage;
@@ -117,6 +118,10 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 			{
 			return getCurrentCameraPath();
 			}
+		@Override
+		public Resolution getResolution() {
+			return new ResolutionManager.Resolution(getCameraResolution().x, getCameraResolution().y);
+		}
 		
 		
 		};
@@ -361,18 +366,15 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 			double xLower=roi.getPlacementHandle2().getX();
 			double yLower=roi.getPlacementHandle2().getY();
 			HWCamera cam=getCurrentCamera();
-//			double noOfImagesX=Math.ceil(Math.abs(xUpper-xLower)/1344);
-//			double noOfImagesY=Math.ceil(Math.abs(yUpper-yLower)/1024);
 			double noOfImagesX=Math.ceil(Math.abs(xUpper-xLower)/cam.getCamWidth());
 			double noOfImagesY=Math.ceil(Math.abs(yUpper-yLower)/cam.getCamHeight());
 			 
 			for(int i = 0; i < (int)noOfImagesY; i++){
 				for(int j = 0; j < (int)noOfImagesX; j++){
 					AxisInfo[] posInfo = new AxisInfo[2];
-//					posInfo[0] = new AxisInfo(xStage,xAxisNum, (xUpper + 1344*j)*2);
-//					posInfo[1] = new AxisInfo(yStage,yAxisNum, (yUpper + 1024*i)*2);
-					posInfo[0] = new AxisInfo(xStage,xAxisNum, (xUpper + cam.getCamWidth()*j)*2);
-					posInfo[1] = new AxisInfo(yStage,yAxisNum, (yUpper + cam.getCamHeight()*i)*2);
+
+					posInfo[0] = new AxisInfo(xStage,xAxisNum, (xUpper +cam.getCamWidth()*j));
+					posInfo[1] = new AxisInfo(yStage,yAxisNum, (yUpper +cam.getCamHeight()*i));
 					
 					//Find all names in use
 					Set<String> usedNames=new HashSet<String>();
@@ -526,13 +528,6 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 		drawArea.repaint();	
 		}
 	
-	
-//	public Vector2i getOffset()
-//	{
-//	double dx=getStageX()-lastImageStagePos.x;
-//	double dy=getStageY()-lastImageStagePos.y;
-//	return new Vector2i((int)(dx/getCameraResolution().x), (int)(dy/getCameraResolution().y));
-//	}
 		
 	public void resetView(){
 		lastCameraImage=null;
@@ -540,8 +535,12 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 		overviewImgWidth=0;
 		overviewImgHeight=0;
 		drawArea.resetCameraPos();
-//		drawArea.overviewImage = new EvPixels(EvPixelsType.INT,1344,1024);
-		drawArea.overviewImage = new EvPixels(EvPixelsType.INT,(int)getCurrentCamera().getCamWidth(),(int)getCurrentCamera().getCamHeight());
+
+		
+		HWCamera cam=getCurrentCamera();	
+		if(cam!=null){	
+			drawArea.overviewImage = new EvPixels(EvPixelsType.INT,(int)cam.getCamWidth(),(int)cam.getCamHeight());
+		}
 		repaint();
 	}
 	
@@ -638,32 +637,23 @@ public class OverviewWindow extends BasicWindow implements ActionListener, Image
 		{
 		return w/getCameraResolution().x;
 		}
-
-//	public Vector2d transformPointS2W(Vector2d v)
-//		{
-//		return new Vector2d(v.x*getCameraResolution().x-getStageX(), v.y*getCameraResolution().y-getStageY()); 
-//		}
-//
-//	public Vector2d transformPointW2S(Vector2d v)
-//		{
-//		return new Vector2d((v.x+getStageX())/getCameraResolution().x, (v.y+getStageY())/getCameraResolution().y);
-//		}
 	
-//	public Vector2d transformPointS2W(Vector2d v)
-//		{
-//		return new Vector2d((v.x*getCameraResolution().x-getStageX()-drawArea.getCameraPos().x+imageOffset.x)/drawArea.getScale(), 
-//				(v.y*getCameraResolution().y-getStageY()-drawArea.getCameraPos().y+imageOffset.y)/drawArea.getScale()); 
-//		}
 	public Vector2d transformPointS2W(Vector2d v)
 	{
-	return new Vector2d((v.x*getCameraResolution().x/drawArea.getScale()-drawArea.getCameraPos().x/drawArea.getScale()-overviewImageOffset.x), 
-			(v.y*getCameraResolution().y/drawArea.getScale()-drawArea.getCameraPos().y/drawArea.getScale()-overviewImageOffset.y)); 
-	}
+
+		return new Vector2d((v.x*getCameraResolution().x-drawArea.getCameraPos().x)/drawArea.getScale()-overviewImageOffset.x, 
+				(v.y*getCameraResolution().y-drawArea.getCameraPos().y)/drawArea.getScale() -overviewImageOffset.y); 
+		
+//		return new Vector2d((v.x*getCameraResolution().x-getStageX()-drawArea.getCameraPos().x+overviewImageOffset.x)/drawArea.getScale(), 
+//				(v.y*getCameraResolution().y-getStageY()-drawArea.getCameraPos().y+overviewImageOffset.y)/drawArea.getScale()); 
+		
+		}
+
 	
 	public Vector2d transformPointW2S(Vector2d v)
-		{
-		return new Vector2d((v.x+overviewImageOffset.x), (v.y+overviewImageOffset.y));
-		}
+	{
+	return new Vector2d((v.x+overviewImageOffset.x+drawArea.getCameraPos().x), (v.y+overviewImageOffset.y+drawArea.getCameraPos().y));
+	}
 
 	public double w2sz(double z)
 		{

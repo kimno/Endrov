@@ -121,6 +121,9 @@ public class WidgetPositions extends JPanel implements ActionListener, PositionL
 		
 		RecordingResource.posListListeners.addWeakListener(this);
 		
+		RecordingResource.posListUpdated();
+		
+		
 	}
 
 	

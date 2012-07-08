@@ -84,7 +84,7 @@ public class EvMultidimAcquisition extends EvAcquisition
 		private EvMultidimAcquisition settings;
 		private boolean toStop=true;
 
-		private Imageset imset=new Imageset();
+//		private Imageset imset=new Imageset();
 		private EvDevicePath cam=null;
 		private int currentFrameCount;
 		private EvDecimal currentFrame;
@@ -138,8 +138,42 @@ public class EvMultidimAcquisition extends EvAcquisition
 						}
 					EvImage evim=new EvImage(pix);
 
+					
+//					EvContainer container=imset;
+					Imageset thisImset;
+					if(currentPos==null)
+					{
+						thisImset=(Imageset)container;
+					}
+					else
+					{
+						EvObject thisOb=container.metaObject.get(currentPos);
+						if(thisOb==null)
+							container.metaObject.put(currentPos, thisOb=new Imageset());
+						thisImset=(Imageset)thisOb;
+					}
+					
+					
+					
+					/*
+					private Imageset imset=new Imageset();
+					
+					String channelName=settings.containerStoreName;
+					boolean isRGB=false;
+					if(isRGB)
+						{
+						imset.metaObject.put(channelName+"R", new EvChannel());
+						imset.metaObject.put(channelName+"G", new EvChannel());
+						imset.metaObject.put(channelName+"B", new EvChannel());
+						}
+					else
+						imset.metaObject.put(channelName, new EvChannel());
+					*/
+					
+					//TODO fix container store name!!!!??
+					
 					//Get a stack, fill in metadata
-					EvChannel ch=imset.getCreateChannel("ch");
+					EvChannel ch=thisImset.getCreateChannel(settings.containerStoreName);
 					EvStack stack=new EvStack();//.getCreateFrame(currentFrame);
 					ch.putStack(currentFrame, stack);
 					
@@ -357,7 +391,7 @@ public class EvMultidimAcquisition extends EvAcquisition
 					}
 					//go to position
 					RecordingResource.setStagePos(gotoPos);
-					
+					System.out.println(gotoPos);
 					currentPos=pos.getName();		
 					
 					recurse.exec();
@@ -458,26 +492,22 @@ public class EvMultidimAcquisition extends EvAcquisition
 					 */
 
 					
+					
 					/**
 					 * Prepare object etc
 					 */
-					String channelName=settings.containerStoreName;
-					boolean isRGB=false;
-					for(int i=0;;i++)
-						if(container.getChild("im"+i)==null)
-							{
-							container.metaObject.put("im"+i, imset);
-							
-							if(isRGB)
+					if(positions.positions.isEmpty())
+					{
+						Imageset imset=new Imageset();
+						for(int i=0;;i++)
+							if(container.getChild("im"+i)==null)
 								{
-								imset.metaObject.put(channelName+"R", new EvChannel());
-								imset.metaObject.put(channelName+"G", new EvChannel());
-								imset.metaObject.put(channelName+"B", new EvChannel());
+								container.metaObject.put("im"+i, imset);
+								container=imset;
+								break;
 								}
-							else
-								imset.metaObject.put(channelName, new EvChannel());
-							break;
-							}
+						
+					}
 
 					//TODO signal update on the object
 					BasicWindow.updateWindows();

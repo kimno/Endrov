@@ -664,7 +664,7 @@ public class LiveWindow extends BasicWindow implements ActionListener, ImageWind
 
 	public Vector2d transformPointW2S(Vector2d v)
 		{
-		return new Vector2d((v.x+getStageX())/getCameraResolution().x, (v.y+getStageY())/getCameraResolution().y);
+		return new Vector2d((v.x-getStageX())/getCameraResolution().x, (v.y-getStageY())/getCameraResolution().y);
 		}
 
 	public double w2sz(double z)
