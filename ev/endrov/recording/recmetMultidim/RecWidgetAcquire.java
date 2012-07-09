@@ -31,7 +31,7 @@ import endrov.util.JImageButton;
 /**
  * Widget for recording settings: Acquire button
  * @author Johan Henriksson
- *
+ * @author Kim Nordlöf, Erik Vernersson
  */
 public abstract class RecWidgetAcquire extends JPanel implements ActionListener, EvAcquisition.AcquisitionListener
 	{

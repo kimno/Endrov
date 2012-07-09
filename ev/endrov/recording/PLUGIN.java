@@ -21,7 +21,6 @@ import endrov.recording.recmetBurst.EvBurstAcquisition;
 import endrov.recording.recmetBurst.RecWindowBurst;
 import endrov.recording.recmetMultidim.RecWindowMultiDim;
 import endrov.recording.resolutionConfigWindow.ResolutionConfigWindow;
-import endrov.recording.testWindow.TestWindow;
 
 public class PLUGIN extends PluginDef
 	{
@@ -71,7 +70,6 @@ public class PLUGIN extends PluginDef
 				EvFLIPAcquisition.class,FlowUnitSumIntensityROI.class,
 				FlowUnitShowGraph.class,
 				
-				TestWindow.class,
 				
 				};
 		}

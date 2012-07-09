@@ -5,65 +5,63 @@
  */
 package endrov.recording.positionsWindow;
 
-import java.awt.Color;
 import java.io.Serializable;
-import java.util.LinkedHashMap;
 
 import endrov.basicWindow.EvColor;
-import endrov.hardware.EvDevicePath;
-import endrov.hardware.EvHardware;
-import endrov.recording.device.HWStage;
 
 /**
  * Stores a stage configuration
+ * 
+ * @author Kim Nordlöf, Erik Vernersson
  */
-public class Position implements Serializable{
-	
+public class Position implements Serializable
+	{
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private AxisInfo[] info;
 	private EvColor color;
 	private String name;
 
-	
-	
-	public Position(AxisInfo[] axisInfo, String name){
+	public Position(AxisInfo[] axisInfo, String name)
+		{
 		this.name = name;
-		
+
 		info = new AxisInfo[axisInfo.length];
-		for(int i = 0; i<axisInfo.length; i++){
+		for (int i = 0; i<axisInfo.length; i++)
+			{
 			info[i] = axisInfo[i];
-		}
-	
-		
+			}
+
 		this.color = new EvColor("White", 1, 1, 1, 1);
-		
-	}
-	
-	public EvColor getColor(){
-		return color;
-	}
-	
-	public AxisInfo[] getAxisInfo(){
-		return info;
-	}
 
-	public String getName(){
-		return name;
-	}
-	
-	public void setName(String name){
-		this.name = name;
-	}
-	
-	
-	public String toString(){
-		String arrayInfo = "";
-		for(int i = 0; i<info.length; i++){
-			arrayInfo = arrayInfo+" "+info[i];
 		}
+
+	public EvColor getColor()
+		{
+		return color;
+		}
+
+	public AxisInfo[] getAxisInfo()
+		{
+		return info;
+		}
+
+	public String getName()
+		{
+		return name;
+		}
+
+	public void setName(String name)
+		{
+		this.name = name;
+		}
+
+	public String toString()
+		{
+		String arrayInfo = "";
+		for (int i = 0; i<info.length; i++)
+			arrayInfo = arrayInfo+" "+info[i];
 		return (name+arrayInfo);
+		}
 	}
-}
-
-

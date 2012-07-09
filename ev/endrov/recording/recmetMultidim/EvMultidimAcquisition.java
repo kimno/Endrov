@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JMenu;
 import javax.vecmath.Vector3d;
 
@@ -40,7 +39,6 @@ import endrov.recording.widgets.RecSettingsRecDesc;
 import endrov.recording.widgets.RecSettingsSlices;
 import endrov.recording.widgets.RecSettingsTimes;
 import endrov.recording.widgets.RecSettingsTimes.TimeType;
-import endrov.recording.widgets.RecWidgetPositions;
 import endrov.util.EvDecimal;
 import endrov.util.ProgressHandle;
 
@@ -49,7 +47,7 @@ import endrov.util.ProgressHandle;
  * Simple multidimensional acquisition - positions, times, stacks, channels
  * 
  * @author Johan Henriksson
- *
+ * @author Kim Nordlöf, Erik Vernersson
  */
 public class EvMultidimAcquisition extends EvAcquisition
 	{

@@ -1,208 +1,80 @@
 package endrov.recording.positionsWindow;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashSet;
 import java.util.LinkedList;
-import javax.swing.*;
-import javax.swing.border.*;
+import java.util.List;
+
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import endrov.hardware.EvHardware;
+import endrov.recording.device.HWStage;
+import endrov.util.EvSwingUtil;
 
 /**
- * A list of checkboxes which maintains a list of custom objects
- * http://www.lime49.com/
- * Copyright 2009 by Harry Jennerway
- * All rights reserved.
+ * Checkbox list used to select desired hardware when creating positions
+ * 
+ * @author Kim Nordlöf, Erik Vernersson
  */
-public class CheckBoxList<T> extends JList {
-    /**
-	 * 
-	 */
+
+public class CheckBoxList extends JPanel
+	{
 	private static final long serialVersionUID = 1L;
-	protected static Border noFocusBorder = new EmptyBorder(1, 4, 1, 4);
-    private CheckBoxListModel<T> model;
 
-    /**
-     * Initializes a new CheckBoxList with the specified object collection
-     * @param items The items to add to the list
-     */
-    public CheckBoxList(LinkedHashMap<T, Boolean> items) {
-    	model = new CheckBoxListModel<T>(items);
-        setModel(model);
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                int index = locationToIndex(e.getPoint());
-                if(index != -1) {
-                    ListItem<T> item = (ListItem<T>)model.getElementAt(index);
-                    item.selected = !item.selected;
-                    revalidate();
-                    repaint();
-                }
-            }
-        });
-        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        setCellRenderer(new CellRenderer());
-    }
-    
-    
-    /**
-     * Method to update the internal model
-     */
-    public void updateModel(LinkedHashMap<T, Boolean> items){
-    	model = new CheckBoxListModel<T>(items);
-    	setModel(model);
-    }
-    
-    /**
-     * Selects all items in the list
-     */
-    public void selectAll() {
-        model.selectAll();
-        revalidate();
-        repaint();
-    }
+	private HashSet<AxisInfo> enabled = new HashSet<AxisInfo>();
 
-    /**
-     * Deselects all items in the list
-     */
-    public void selectNone() {
-        model.selectNone();
-        revalidate();
-        repaint();
-    }
+	public CheckBoxList()
+		{
 
-    @Override
-    public String getToolTipText(MouseEvent evt) {
-        int index = locationToIndex(evt.getPoint());
-        if(index == -1) {
-            return "";
-        } else {
-            ListItem<T> item = (ListItem<T>)model.getElementAt(index);
-            return item.dataItem.toString();
-        }
-    }
+		setLayout(new GridLayout(1, 1));
 
-    /**
-     * Renders ListItems as JCheckBoxes whose text is set by the .toString() method of the dataItem in the Item
-     */
-    protected class CellRenderer implements ListCellRenderer {
-        private JCheckBox checkBox;
-        private Box containerBox;
-        public Component getListCellRendererComponent(JList list, Object value, int index,
-                                                    boolean isSelected, boolean cellHasFocus) {
-            if(containerBox == null) {
-                containerBox = Box.createHorizontalBox();
-                checkBox = new JCheckBox();
-                checkBox.setEnabled(isEnabled());
-                checkBox.setFont(getFont());
-                checkBox.setFocusPainted(false);
-                checkBox.setBorderPainted(true);
-                checkBox.setBorder(isSelected ? UIManager.getBorder("List.focusCellHighlightBorder") : noFocusBorder);
-                containerBox.add(checkBox);
-            }
-            checkBox.setBackground(isSelected ? getSelectionBackground() : getBackground());
-            checkBox.setForeground(isSelected ? getSelectionForeground() : getForeground());
-            if(value != null) {
-                ListItem item = (ListItem)value;
-                checkBox.setText(item.dataItem.toString());
-                checkBox.setSelected(item.selected);
-            }
-            return containerBox;
-        }
-    }
+		List<AxisInfo> allaxis = new LinkedList<AxisInfo>();
 
-    /**
-     * Returns the list of items in the CheckBoxList
-     * @return The list of items in the CheckBoxList
-     */
-    public LinkedHashMap<T, Boolean> getItems() {
-        return model.getItems();
-    }
+		for (HWStage stage : EvHardware.getDeviceMapCast(HWStage.class).values())
+			{
+			for (int i = 0; i<stage.getNumAxis(); i++)
+				{
+				allaxis.add(new AxisInfo(stage, i, stage.getStagePos()[i]));
 
-    /**
-     * Maintains a sorted list of ListItems for rendering a CheckBoxList
-     * @param <T> The type of objects in the list
-     */
-    class CheckBoxListModel<T> extends AbstractListModel {
-        private LinkedList<ListItem<T>> items = new LinkedList<ListItem<T>>(); // damn Java for lacking an indexOf method in LinkedHashMap
+				}
 
-        /**
-         * Initializes a new CheckBoxListModel
-         * @param items The items to add to the list
-         */
-        public CheckBoxListModel(LinkedHashMap<T, Boolean> items) {
-            Iterator<T> iter = items.keySet().iterator();
-            while(iter.hasNext()) {
-                T acc = iter.next();
-                this.items.add(new ListItem<T>(acc, items.get(acc)));
-            }
-        }
+			}
 
-        /**
-         * Returns the size of the list
-         * @return The size of the list
-         */
-        public int getSize() {
-            return items.size();
-        }
+		JComponent[] comps = new JComponent[allaxis.size()*2];
+		for (int i = 0; i<allaxis.size(); i++)
+			{
+			final JCheckBox b = new JCheckBox();
+			final AxisInfo info = allaxis.get(i);
+			comps[i*2+0] = b;
+			comps[i*2+1] = new JLabel(""+info.getDevice().getDescName()+" "
+					+info.getDevice().getAxisName()[info.getAxis()]);
 
-        /**
-         * Returns the ListItem at the specified index
-         * @param index The index of the item to find
-         * @return The ListItem at the specified index
-         */
-        public ListItem<T> getElementAt(int index) {
-            return items.get(index);
-        }
+			b.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+						{
+						if (b.isSelected())
+							enabled.add(info);
+						else
+							enabled.remove(info);
+						}
+				});
 
-        /**
-         * Returns the collection of items in the list
-         * @return The collection of items in the list
-         */
-        private LinkedHashMap<T, Boolean> getItems() {
-            LinkedHashMap<T, Boolean> map = new LinkedHashMap<T, Boolean>();
-            for(ListItem<T> item : items) {
-                map.put(item.dataItem, item.selected);
-            }
-            return map;
-        }
+			}
+		add(EvSwingUtil.layoutTableCompactWide(comps));
+		}
 
-        /**
-         * Selects all items in the list
-         */
-        public void selectAll() {
-            for(ListItem<T> item : items) {
-                item.selected = true;
-            }
-        }
+	public AxisInfo[] getInfo()
+		{
+		AxisInfo[] axisCopy = new AxisInfo[enabled.size()];
+		axisCopy = enabled.toArray(axisCopy);
+		return axisCopy;
 
-        /**
-         * Deselects all items in the list
-         */
-        public void selectNone() {
-            for(ListItem<T> item : items) {
-                item.selected = false;
-            }
-        }
-    }
+		}
 
-    /**
-     * Holds an item of the specified type and a value indicating whether or not it is selected
-     * @param <T> The type of the item
-     */
-    class ListItem<T> {
-        public T dataItem;
-        public boolean selected;
-        
-        /**
-         * Initializes a new ListItem
-         * @param dataItem The item to display
-         * @param selected <c>true</c> if the item is selected, otherwise <c>false</c>
-         */
-        public ListItem(T dataItem, boolean selected) {
-            this.dataItem = dataItem;
-            this.selected = selected;
-        }
-    }
-}
+	}

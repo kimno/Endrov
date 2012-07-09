@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import javax.vecmath.Vector2d;
 
 import endrov.hardware.DevicePropertyType;
 import endrov.hardware.EvDeviceObserver;

@@ -10,11 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -22,12 +19,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListModel;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
-
-import endrov.data.EvPath;
-import endrov.data.tree.DataTree;
 import endrov.recording.RecordingResource;
 import endrov.recording.RecordingResource.PositionListListener;
 import endrov.recording.positionsWindow.Position;
@@ -50,79 +41,12 @@ public class RecWidgetPositions extends JPanel implements ActionListener, Positi
 	private JCheckBox cUseGrid=new JCheckBox("Use grid");
 	private JButton bSetGrid=new JButton("Configure");
 	
-	//private List<EvPath> roiList=new ArrayList<EvPath>();
-	//private List<Position> posList=new ArrayList<Position>();
-	
-	//private DataTree dataTree=new DataTree();
 	
 	private JButton bAdd=new JButton("Add>");
 	private JButton bRemove=new JButton("<Remove");
 
 	
-	/**
-	 * GUI Model for the list of added ROIs
-	 */
-	/*
-	private class ListModelROI implements ListModel
-		{
-		public List<ListDataListener> listeners=new LinkedList<ListDataListener>(); 
-		
-		public void addListDataListener(ListDataListener l)
-			{
-			listeners.add(l);
-			}
 	
-		public Object getElementAt(int index)
-			{
-			return roiList.get(index);
-			}
-	
-		public int getSize()
-			{
-			return roiList.size();
-			}
-	
-		public void removeListDataListener(ListDataListener l)
-			{
-			listeners.remove(l);
-			}
-		}
-	*/
-	
-	/**
-	 * GUI Model for the list of added ROIs
-	 */
-	/*
-	private class ListModelPOS implements ListModel
-		{
-		public List<ListDataListener> listeners=new LinkedList<ListDataListener>(); 
-		
-		public void addListDataListener(ListDataListener l)
-			{
-			listeners.add(l);
-			}
-	
-		public Object getElementAt(int index)
-			{
-			return posList.get(index);
-			}
-	
-		public int getSize()
-			{
-			return posList.size();
-			}
-	
-		public void removeListDataListener(ListDataListener l)
-			{
-			listeners.remove(l);
-			}
-		}
-	*/
-	
-	/*
-	private ListModelROI listModelAdded=new ListModelROI();
-	private JList listUseROIs=new JList(listModelAdded);
-	*/
 	private DefaultListModel listModel=new DefaultListModel();
 	private JList posList=new JList(listModel);
 	private JScrollPane listScroller = new JScrollPane(posList);
@@ -196,19 +120,8 @@ public class RecWidgetPositions extends JPanel implements ActionListener, Positi
 		{
 		if(e.getSource()==bAdd)
 			{
-			/*
-			//Add new path to list of selected ROIs
-			Set<EvPath> paths=new TreeSet<EvPath>();
-			paths.addAll(roiList);
-			for(EvPath p:dataTree.getSelectedPaths())
-				paths.add(p);
-			roiList.clear();
-			roiList.addAll(paths);
-			System.out.println(roiList);
-			for(ListDataListener l:listModelAdded.listeners)
-				l.contentsChanged(new ListDataEvent(listModelAdded, ListDataEvent.CONTENTS_CHANGED, 0, roiList.size()));
-			listUseROIs.repaint();
-			*/
+	//			posList.getSelectedIndices()
+			
 				int index = posList.getSelectedIndex();
 				if(index >=0){
 					listModelAdded.addElement(listModel.get(index));
@@ -266,17 +179,7 @@ public class RecWidgetPositions extends JPanel implements ActionListener, Positi
 				}
 			}
 		}
-		
-//		for(int i = 0; i< RecordingResource.posList.size(); i++){
-//			for(int j = 0; j< listModel.size(); j++){
-//				if(listModel.get(j).equals(RecordingResource.posList.get(i))){
-//					listModel.addElement(RecordingResource.posList.get(i));	
-//				}
-//			}
-//		
-//		listModel.addElement(RecordingResource.posList.get(i));	
-//		}
-		
+
 		
 	}
 	
